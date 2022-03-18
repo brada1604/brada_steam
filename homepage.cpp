@@ -1,0 +1,90 @@
+// PEMANGGILAN LIBRARY
+#include <conio.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+// PEMANGGILAN LIBRARY - END
+
+// PEMANGGILAN HEADER FILE
+#include "program.h"
+// PEMANGGILAN HEADER FILE - END
+
+// DEKLARASI MODUL FUNCTION
+int exit_aplikasi();		// MODUL UNTUK KELUAR APLIKASI
+int salah_input_menu();		// MODUL UNTUK ERROR HANDLE APABILA SALAH INPUT PADA MENU
+// DEKLARASI MODUL FUNCTION - END
+
+// FUNCTION UTAMA UNTUK HOMEPAGE DARI APLIKASI BRADA STEAM
+int homepage(){
+	// DEKLARASI VARIABEL LOKAL
+	int menu;
+	
+
+	// LIST MENU APLIKASI
+	system("cls");
+	printf("|=================================================|\n");
+	printf("|--                  BRADA STEAM                --|\n");
+	printf("|                 Selamat Datang                  |\n");
+	printf("|          Silahkan Pilih Menu Dibawah :          |\n");
+	printf("|=================================================|\n");
+	// printf("| 1. Login Aplikasi                               |\n");
+	printf("| 2. Keluar Aplikasi                              |\n");
+	printf("|                                                 |\n");
+	printf("|=================================================|\n");
+	printf("             Copyright 2021 - BradaSteam             \n");
+    
+    printf("\n\n");
+    printf("Masukkan angka pada menu yang dipilih : ");
+	scanf("%d", &menu);
+
+	system("cls");
+	
+	// SISTEM DIRECT TO PAGE BERKAITAN BERDASARKAN INPUTAN YANG DIPILIH OLEH USER
+    switch (menu) { 
+   //      case 1:
+			// auth_login(); 		// REDIRECT KE auth_login() UNTUK LOGIN - LOKASI FILE : sys_auth.h --> auth.cpp
+			// break;
+		case 2:
+		    exit_aplikasi(); 	// REDIRECT KE exit_aplikasi() UNTUK KELUAR DARI APLIKASI - LOKASI FILE : homepage.cpp
+			break;
+	 	default:
+	 		salah_input_menu(); // REDIRECT KE salah_input_menu() UNTUK HANDLER PADA SAAT SALAH INPUT - LOKASI FILE : homepage.cpp
+			break;
+    }
+}
+// FUNCTION UTAMA UNTUK HOMEPAGE DARI APLIKASI BRADA STEAM - END
+
+// FUNCTION UNTUK KELUAR DARI APLIKASI
+int exit_aplikasi(){
+	char pil_out;
+	printf("Anda Yakin Akan Keluar Dari Aplikasi KlikCafe? (Y/N) : "); 
+	pil_out = getche(); 
+
+	system("cls");
+
+    printf("\n"); 
+    if ((pil_out == 'Y') || (pil_out == 'y'))
+    {
+    	// BYPASS TO EXIT APPLICATION
+    	system("cls");
+    	exit(1);
+	}
+	else{
+		// REDIRECT TO homepage.cpp
+		system("cls");
+		homepage(); // FILE : program.h --> homepage.cpp
+	}
+}
+// FUNCTION UNTUK KELUAR DARI APLIKASI - END
+
+// FUNCTION UNTUK ERROR HANDLING PADA INPUTAN PEMILIHAN MENU
+int salah_input_menu(){
+	printf("Maaf Inputan Salah\n");
+	printf("Silahkan Tekan Enter Untuk Kembali Ke Homepage...");
+	getchar();
+
+	// REDIRECT TO homepage.cpp
+	system("cls");
+	homepage(); // FILE : program.h --> homepage.cpp
+}
+// FUNCTION UNTUK ERROR HANDLING PADA INPUTAN PEMILIHAN MENU - END
