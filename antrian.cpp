@@ -11,6 +11,11 @@
 #include "antrian.h"
 // PEMANGGILAN FILE HEADER - END
 
+// DEKLARASI MODUL FUNCTION
+int exit_aplikasi_antrian();		// MODUL UNTUK KELUAR APLIKASI
+int salah_input_menu_antrian();		// MODUL UNTUK ERROR HANDLE APABILA SALAH INPUT PADA MENU
+// DEKLARASI MODUL FUNCTION - END
+
 // DEKLARASI VARIABEL GLOBAL
 typedef struct antre *address;
 struct antre{
@@ -35,27 +40,159 @@ int jumlah_pendapatan;
 int jumlah_waktu;
 // DEKLARASI VARIABEL GLOBAL - END
 
-int main_antrian(){
-	int pilih;
-	int keluar;
+// int main_antrian(){
+// 	int pilih;
+// 	int keluar;
 	
-	tampilanAwal();
+// 	tampilanAwal();
 
-	do{
-		system("cls");
+// 	do{
+// 		system("cls");
 
-		header_aplikasi();
+// 		header_aplikasi();
 
-		data_antrian();
+// 		data_antrian();
 
-		menu(&pilih);
+// 		menu(&pilih);
 
-		menuTerpilih(pilih,&keluar);
+// 		menuTerpilih(pilih,&keluar);
 
-	}while(keluar != 1);
+// 	}while(keluar != 1);
 
-	return 0;
+// 	return 0;
+// }
+
+// FUNCTION UTAMA UNTUK ANTRIAN DARI APLIKASI BRADA STEAM
+int main_antrian(){
+	// DEKLARASI VARIABEL LOKAL
+	int pilihan;
+
+	char alias[15];
+	int dec, tipe, temp_waktu, flag, pil;
+	
+	// tampilanAwal();
+
+	system("cls");
+
+	header_aplikasi();
+
+	data_antrian();
+
+	// LIST MENU APLIKASI
+	printf("\n");
+	printf("\n");
+	printf("|=================================================|\n");
+	printf("|          Silahkan Pilih Menu Dibawah :          |\n");
+	printf("|=================================================|\n");
+	printf("| 1. Input Kendaraan                              |\n");
+	printf("| 2. Keluarkan Kendaraan Dari Antrian             |\n");
+	printf("| 3. Simulasi waktu (%d menit)                    |\n",clock);
+	printf("| 4. Petunjuk                                     |\n");
+	printf("| 5. Selesai                                      |\n");
+	printf("|                                                 |\n");
+	printf("|=================================================|\n");
+	printf("             Copyright 2022 - BradaSteam           \n");
+    
+    printf("\n\n");
+    printf("Masukkan angka pada menu yang dipilih : ");
+	scanf("%d", &pilihan);
+
+	// system("cls");
+	
+	// SISTEM DIRECT TO PAGE BERKAITAN BERDASARKAN INPUTAN YANG DIPILIH OLEH USER
+    switch (pilihan) { 
+  //       case 1:
+		// 	main_antrian(); 		// REDIRECT KE main_antrian() UNTUK LOGIN - LOKASI FILE : antrian.h --> antrian.cpp
+		// 	break;
+		// case 2:
+		//     exit_aplikasi_antrian(); 	// REDIRECT KE exit_aplikasi_antrian() UNTUK KELUAR DARI APLIKASI - LOKASI FILE : homepage.cpp
+		// 	break;
+		// case 3:
+		//     exit_aplikasi_antrian(); 	// REDIRECT KE exit_aplikasi_antrian() UNTUK KELUAR DARI APLIKASI - LOKASI FILE : homepage.cpp
+		// 	break;
+		// case 4:
+		//     exit_aplikasi_antrian(); 	// REDIRECT KE exit_aplikasi_antrian() UNTUK KELUAR DARI APLIKASI - LOKASI FILE : homepage.cpp
+		// 	break;
+		// case 5:
+		//     exit_aplikasi_antrian(); 	// REDIRECT KE exit_aplikasi_antrian() UNTUK KELUAR DARI APLIKASI - LOKASI FILE : homepage.cpp
+		// 	break;
+		case 1:
+			do{
+				printf("\nmasukkan nama (sebagai identitas dari mobil) :");scanf("%s",&alias);
+				dec = cekNama(alias,&flag);
+				if(dec != 0){
+					printf("ada nama pemilik mobil yang sama. silahkan isi dengan nama yang berbeda.\n");
+				}
+			}while(dec != 0);
+			tipe = tipeCuci();
+			if(tipe == 4){break;}
+			enqueue(alias, tipe);
+			notif(alias, tipe);
+			tombol_selanjutnya();
+
+			main_antrian();
+			// *exit = 0;
+			break;
+		case 2:
+			pil = isEmpty();
+			if(pil == 0){
+				printf("tidak ada mobil.");
+				tombol_selanjutnya();
+
+				main_antrian();
+				break;
+			}
+			do{
+				flag = 0;
+				printf("\nmasukkan nama pemilik mobil yang mobilnya ingin dikeluarkan (jika tidak jadi isi 0) : ");scanf("%s",&alias);
+				if(alias[0]=='0'){
+					break;
+				}
+				dec = cekNama(alias,&flag);
+				if(dec == 0){
+					printf("tidak ada mobil dengan nama pemilik tersebut. silahkan isi dengan nama yang berbeda.\n");
+				}
+			}while(dec == 0);
+			keluarin(flag,alias);
+
+			main_antrian();
+			// *exit = 0;
+			break;
+		case 3:
+			simulasiWaktu();
+
+			main_antrian();
+			// *exit = 0;
+			break;
+		case 4:
+			bantuan_aplikasi();
+			// *exit = 0;
+			tombol_selanjutnya();
+
+			main_antrian();
+			break;
+		case 5:
+			pil = isEmpty();
+			if(pil != 0){
+				printf("masih ada mobil yang sedang dicuci. tidak bisa keluar dari program.\n");
+				tombol_selanjutnya();
+
+				main_antrian();
+				// *exit = 0;
+				break;	
+			}
+			// *exit = 1;
+			system("cls");
+			printf("Hari ini, dengan total waktu kerja %d menit, didapat penghasilan sebesar Rp.%d\n",jumlah_waktu,jumlah_pendapatan);
+			printf("THANK YOU!!!\n\n");
+			header_aplikasi();	
+			break;
+	 	default:
+	 		salah_input_menu_antrian(); // REDIRECT KE salah_input_menu_antrian() UNTUK HANDLER PADA SAAT SALAH INPUT - LOKASI FILE : antrian.cpp
+			break;
+    }
 }
+// FUNCTION UTAMA UNTUK ANTRIAN DARI APLIKASI BRADA STEAM - END
 
 void tampilanAwal(){
 	header_aplikasi();
@@ -135,98 +272,46 @@ void data_antrian(){
 	printf("\nPendapatan hari ini : Rp.%d",jumlah_pendapatan);
 }
 
-void menu(int *pilihan){
-	printf("\n");
-	printf("\n");
-	printf("Silahkan Pilih Menu Dibawah :\n");
-	printf("|=================================================|\n");
-	printf("| 1. Input Kendaraan                              |\n");
-	printf("| 2. Keluarkan Kendaraan Dari Antrian             |\n");
-	printf("| 3. Simulasi waktu ( %d menit)                   |\n",clock);
-	printf("| 4. Petunjuk                                     |\n");
-	printf("| 5. Selesai                                      |\n");
-	printf("|=================================================|\n");
-	do{
-		printf("Masukkan angka pada menu yang dipilih : ");
-		scanf("%d",pilihan);
-		if(*pilihan<1 || *pilihan>5){
-			printf("Inputan Salah! silahkan isi lagi.\n");
-		}
-	}while(*pilihan<1 || *pilihan>5);	
+// FUNCTION UNTUK KELUAR DARI APLIKASI
+int exit_aplikasi_antrian(){
+	char pil_out;
+	printf("Anda Yakin Akan Keluar Dari Aplikasi BradaSteam? (Y/N) : "); 
+	pil_out = getche(); 
+
+	system("cls");
+
+    printf("\n"); 
+    if ((pil_out == 'Y') || (pil_out == 'y'))
+    {
+    	// BYPASS TO EXIT APPLICATION
+    	system("cls");
+    	exit(1);
+	}
+	else{
+		// REDIRECT TO antrian.cpp
+		system("cls");
+		main_antrian(); // FILE : program.h --> antrian.cpp
+	}
 }
+// FUNCTION UNTUK KELUAR DARI APLIKASI - END
+
+// FUNCTION UNTUK ERROR HANDLING PADA INPUTAN PEMILIHAN MENU
+int salah_input_menu_antrian(){
+	printf("Maaf Inputan Salah\n");
+	printf("Silahkan Tekan Enter Untuk Kembali...");
+	getchar();
+
+	// REDIRECT TO antrian.cpp
+	system("cls");
+	main_antrian(); // FILE : program.h --> antrian.cpp
+}
+// FUNCTION UNTUK ERROR HANDLING PADA INPUTAN PEMILIHAN MENU - END
+
+
 
 
 
 // ////////////////////////////////////////////////////////////////
-
-
-
-
-void menuTerpilih(int mt, int *exit){
-	char alias[15];int dec, tipe, temp_waktu,flag,pil;
-	switch(mt){
-		case 1:
-			do{
-				printf("\nmasukkan nama (sebagai identitas dari mobil) :");scanf("%s",&alias);
-				dec = cekNama(alias,&flag);
-				if(dec != 0){
-					printf("ada nama pemilik mobil yang sama. silahkan isi dengan nama yang berbeda.\n");
-				}
-			}while(dec != 0);
-			tipe = tipeCuci();
-			if(tipe == 4){break;}
-			enqueue(alias, tipe);
-			notif(alias, tipe);
-			tombol_selanjutnya();
-			*exit = 0;
-			break;
-		case 2:
-			pil = isEmpty();
-			if(pil == 0){
-				printf("tidak ada mobil.");
-				tombol_selanjutnya();
-				break;
-			}
-			do{
-				flag = 0;
-				printf("\nmasukkan nama pemilik mobil yang mobilnya ingin dikeluarkan (jika tidak jadi isi 0) : ");scanf("%s",&alias);
-				if(alias[0]=='0'){
-					break;
-				}
-				dec = cekNama(alias,&flag);
-				if(dec == 0){
-					printf("tidak ada mobil dengan nama pemilik tersebut. silahkan isi dengan nama yang berbeda.\n");
-				}
-			}while(dec == 0);
-			keluarin(flag,alias);
-			*exit = 0;
-			break;
-		case 3:
-			simulasiWaktu();
-			*exit = 0;
-			break;
-		case 4:
-			bantuan_aplikasi();
-			*exit = 0;
-			tombol_selanjutnya();
-			break;
-		case 5:
-			pil = isEmpty();
-			if(pil != 0){
-				printf("masih ada mobil yang sedang dicuci. tidak bisa keluar dari program.\n");
-				tombol_selanjutnya();
-				*exit = 0;
-				break;	
-			}
-			*exit = 1;
-			system("cls");
-			printf("Hari ini, dengan total waktu kerja %d menit, didapat penghasilan sebesar Rp.%d\n",jumlah_waktu,jumlah_pendapatan);
-			printf("THANK YOU!!!\n\n");
-			header_aplikasi();	
-			break;
-	}
-}
-
 
 
 int cekNama(char alias[], int *flag){

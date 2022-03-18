@@ -58,7 +58,7 @@ int homepage(){
 // FUNCTION UNTUK KELUAR DARI APLIKASI
 int exit_aplikasi(){
 	char pil_out;
-	printf("Anda Yakin Akan Keluar Dari Aplikasi KlikCafe? (Y/N) : "); 
+	printf("Anda Yakin Akan Keluar Dari Aplikasi BradaSteam? (Y/N) : "); 
 	pil_out = getche(); 
 
 	system("cls");

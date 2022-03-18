@@ -6,8 +6,8 @@
 // DEKLARASI MODUL
 int main_antrian();
 void data_antrian();
-void menu(int *pm);
-void menuTerpilih(int mt,int *exit);
+// void menu(int *pm);
+// void menuTerpilih(int mt,int *exit);
 void tombol_selanjutnya();
 int cekNama(char alias[], int *flag);
 int tipeCuci();
