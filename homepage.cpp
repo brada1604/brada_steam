@@ -7,6 +7,7 @@
 
 // PEMANGGILAN HEADER FILE
 #include "program.h"
+#include "antrian.h"
 // PEMANGGILAN HEADER FILE - END
 
 // DEKLARASI MODUL FUNCTION
@@ -27,11 +28,11 @@ int homepage(){
 	printf("|                 Selamat Datang                  |\n");
 	printf("|          Silahkan Pilih Menu Dibawah :          |\n");
 	printf("|=================================================|\n");
-	// printf("| 1. Login Aplikasi                               |\n");
+	printf("| 1. Mulai Aplikasi                               |\n");
 	printf("| 2. Keluar Aplikasi                              |\n");
 	printf("|                                                 |\n");
 	printf("|=================================================|\n");
-	printf("             Copyright 2021 - BradaSteam             \n");
+	printf("             Copyright 2022 - BradaSteam           \n");
     
     printf("\n\n");
     printf("Masukkan angka pada menu yang dipilih : ");
@@ -41,9 +42,9 @@ int homepage(){
 	
 	// SISTEM DIRECT TO PAGE BERKAITAN BERDASARKAN INPUTAN YANG DIPILIH OLEH USER
     switch (menu) { 
-   //      case 1:
-			// auth_login(); 		// REDIRECT KE auth_login() UNTUK LOGIN - LOKASI FILE : sys_auth.h --> auth.cpp
-			// break;
+        case 1:
+			main_antrian(); 		// REDIRECT KE main_antrian() UNTUK LOGIN - LOKASI FILE : antrian.h --> antrian.cpp
+			break;
 		case 2:
 		    exit_aplikasi(); 	// REDIRECT KE exit_aplikasi() UNTUK KELUAR DARI APLIKASI - LOKASI FILE : homepage.cpp
 			break;

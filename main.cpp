@@ -31,7 +31,7 @@ int main() {
 	printf("|Loading - Tunggu Sebentar                        |\n");
 	printf("|                                                 |\n");
 	printf("|=================================================|\n");
-	printf("            Copyright 2021 - BradaSteam            \n");
+	printf("            Copyright 2022 - BradaSteam            \n");
 
 	for( int i = 0; i <= 100; i++ ) //MENGKALKULASI PROSES DARI 0-100%
 	{
