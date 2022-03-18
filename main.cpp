@@ -1,7 +1,7 @@
 /*
 Nama Program	: Brada Steam
 Deskripsi		: Program simulasi antrian pelayanan cuci mobil di Ciamis
-Develop			: Bagus Nugroho (211511034)
+Developer		: Bagus Nugroho (211511034)
 Tahun 			: MARET 2022
 */
 
