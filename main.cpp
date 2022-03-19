@@ -13,6 +13,7 @@ Tahun 			: MARET 2022
 
 // PEMANGGILAN HEADER FILE
 #include "program.h"
+#include "antrian.h"
 // PEMANGGILAN HEADER FILE - END
 
 // DEKLARASI MODUL
@@ -24,27 +25,27 @@ int main() {
 	// PROSES FITUR SPLASH SCREEN
 	int load = 0; // UNTUK MENGHITUNG JUMLAH TITIK
 	
-	printf("|=================================================|\n");
-	printf("|                  BRADA STEAM                    |\n");
-	printf("|=================================================|\n");
-	printf("|                                                 |\n");
-	printf("|Loading - Tunggu Sebentar                        |\n");
-	printf("|                                                 |\n");
-	printf("|=================================================|\n");
-	printf("            Copyright 2022 - BradaSteam            \n");
+	header_aplikasi(); // HEADER APLIKASI
+	printf("|                                                                                                           |\n");
+	printf("| LOADING APLIKASI - TUNGGU SEBENTAR                                                                        |\n");
+	printf("|                                                                                                           |\n");
+	footer_aplikasi(); // FOOTER APLIKASI
 
 	for( int i = 0; i <= 100; i++ ) //MENGKALKULASI PROSES DARI 0-100%
 	{
 		if(i % 10 == 0)
 		{
-			gotoxy(12 + 15 + load, 4);printf(".");
+			gotoxy(21 + 15 + load, 6);
+			printf(".");
 			load++;
 			if(load == 6) //MENGHAPUS SEMUA TITIK
 			{
-				load = 0; printf("\b\b\b\b\b\b");
+				load = 0; 
+				printf("\b\b\b\b\b\b");
 			}
 		}
-		gotoxy(12 + 21, 4);printf("%i",i);
+		gotoxy(21 + 21, 6);
+		printf("%i",i);
 		for(int j = 0; j < 50; j++ )  // DELAY (MEMBEBANKAN COMPUTER SEOLAH-OLAH PROSES MENJADI LAMA)
 		{
 			for(int l = 0;l < 100000;l++) // DIGUNAKAN UNTUK MENGATUR CEPAT LAMBAT LOADING

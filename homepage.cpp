@@ -19,23 +19,21 @@ int salah_input_menu();		// MODUL UNTUK ERROR HANDLE APABILA SALAH INPUT PADA ME
 int homepage(){
 	// DEKLARASI VARIABEL LOKAL
 	int menu;
-	
 
 	// LIST MENU APLIKASI
 	system("cls");
-	printf("|=================================================|\n");
-	printf("|--                  BRADA STEAM                --|\n");
-	printf("|                 Selamat Datang                  |\n");
-	printf("|          Silahkan Pilih Menu Dibawah :          |\n");
-	printf("|=================================================|\n");
-	printf("| 1. Mulai Aplikasi                               |\n");
-	printf("| 2. Keluar Aplikasi                              |\n");
-	printf("|                                                 |\n");
-	printf("|=================================================|\n");
-	printf("             Copyright 2022 - BradaSteam           \n");
+	header_aplikasi(); // HEADER APLIKASI
+
+	printf("| Silahkan Pilih Menu dibawah ini :                                                                         |\n");
+	printf("|===========================================================================================================|\n");
+	printf("| 1. Mulai Aplikasi                                                                                         |\n");
+	printf("| 2. Keluar Aplikasi                                                                                        |\n");
+	printf("|                                                                                                           |\n");
+
+	footer_aplikasi(); // FOOTER APLIKASI
     
     printf("\n\n");
-    printf("Masukkan angka pada menu yang dipilih : ");
+    printf("Masukkan pilihan : "); // DI ISI DENGAN '1' ATAU '2', SELAIN DARI ITU MAKA PROGRAM AKAN MENGELUARKAN NOTIFIKASI ALERT
 	scanf("%d", &menu);
 
 	system("cls");
@@ -43,7 +41,7 @@ int homepage(){
 	// SISTEM DIRECT TO PAGE BERKAITAN BERDASARKAN INPUTAN YANG DIPILIH OLEH USER
     switch (menu) { 
         case 1:
-			main_antrian(); 		// REDIRECT KE main_antrian() UNTUK LOGIN - LOKASI FILE : antrian.h --> antrian.cpp
+			main_antrian(); 	// REDIRECT KE main_antrian() UNTUK MULAI SISTEM ANTRIAN - LOKASI FILE : antrian.h --> antrian.cpp
 			break;
 		case 2:
 		    exit_aplikasi(); 	// REDIRECT KE exit_aplikasi() UNTUK KELUAR DARI APLIKASI - LOKASI FILE : homepage.cpp
@@ -80,8 +78,8 @@ int exit_aplikasi(){
 
 // FUNCTION UNTUK ERROR HANDLING PADA INPUTAN PEMILIHAN MENU
 int salah_input_menu(){
-	printf("Maaf Inputan Salah\n");
-	printf("Silahkan Tekan Enter Untuk Kembali Ke Homepage...");
+	printf("Maaf Inputan Salah!\n");
+	printf("Silahkan Tekan Apapun Untuk Kembali Ke Homepage...");
 	getchar();
 
 	// REDIRECT TO homepage.cpp
