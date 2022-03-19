@@ -17,16 +17,16 @@ int salah_input_menu_antrian();		// MODUL UNTUK ERROR HANDLE APABILA SALAH INPUT
 // DEKLARASI MODUL FUNCTION - END
 
 // DEKLARASI VARIABEL GLOBAL
-typedef struct antre *address;
-struct antre{
-	char nama[10];
+typedef struct antrian_cuci *address;
+struct antrian_cuci{
+	char nama[15];
 	int tipe;
 	int umur;
 	address next;
 };
 
-antre *startSatu = NULL;
-antre *startDua = NULL;
+antrian_cuci *startSatu = NULL;
+antrian_cuci *startDua = NULL;
 
 
 int jumlahAntre[2];
@@ -66,9 +66,9 @@ int jumlah_waktu;
 int main_antrian(){
 	// DEKLARASI VARIABEL LOKAL
 	int pilihan;
+	int pil;
 
-	char alias[15];
-	int dec, tipe, temp_waktu, flag, pil;
+	
 	
 	// tampilanAwal();
 
@@ -97,96 +97,58 @@ int main_antrian(){
     printf("Masukkan angka pada menu yang dipilih : ");
 	scanf("%d", &pilihan);
 
-	// system("cls");
+	
 	
 	// SISTEM DIRECT TO PAGE BERKAITAN BERDASARKAN INPUTAN YANG DIPILIH OLEH USER
     switch (pilihan) { 
-  //       case 1:
-		// 	main_antrian(); 		// REDIRECT KE main_antrian() UNTUK LOGIN - LOKASI FILE : antrian.h --> antrian.cpp
-		// 	break;
-		// case 2:
-		//     exit_aplikasi_antrian(); 	// REDIRECT KE exit_aplikasi_antrian() UNTUK KELUAR DARI APLIKASI - LOKASI FILE : homepage.cpp
-		// 	break;
-		// case 3:
-		//     exit_aplikasi_antrian(); 	// REDIRECT KE exit_aplikasi_antrian() UNTUK KELUAR DARI APLIKASI - LOKASI FILE : homepage.cpp
-		// 	break;
-		// case 4:
-		//     exit_aplikasi_antrian(); 	// REDIRECT KE exit_aplikasi_antrian() UNTUK KELUAR DARI APLIKASI - LOKASI FILE : homepage.cpp
-		// 	break;
-		// case 5:
-		//     exit_aplikasi_antrian(); 	// REDIRECT KE exit_aplikasi_antrian() UNTUK KELUAR DARI APLIKASI - LOKASI FILE : homepage.cpp
-		// 	break;
 		case 1:
-			do{
-				printf("\nmasukkan nama (sebagai identitas dari mobil) :");scanf("%s",&alias);
-				dec = cekNama(alias,&flag);
-				if(dec != 0){
-					printf("ada nama pemilik mobil yang sama. silahkan isi dengan nama yang berbeda.\n");
-				}
-			}while(dec != 0);
-			tipe = tipeCuci();
-			if(tipe == 4){break;}
-			enqueue(alias, tipe);
-			notif(alias, tipe);
+			input_kendaraan();
+
 			tombol_selanjutnya();
 
 			main_antrian();
-			// *exit = 0;
+			
 			break;
+
 		case 2:
-			pil = isEmpty();
-			if(pil == 0){
-				printf("tidak ada mobil.");
-				tombol_selanjutnya();
-
-				main_antrian();
-				break;
-			}
-			do{
-				flag = 0;
-				printf("\nmasukkan nama pemilik mobil yang mobilnya ingin dikeluarkan (jika tidak jadi isi 0) : ");scanf("%s",&alias);
-				if(alias[0]=='0'){
-					break;
-				}
-				dec = cekNama(alias,&flag);
-				if(dec == 0){
-					printf("tidak ada mobil dengan nama pemilik tersebut. silahkan isi dengan nama yang berbeda.\n");
-				}
-			}while(dec == 0);
-			keluarin(flag,alias);
+			cancel_kendaraan();
 
 			main_antrian();
-			// *exit = 0;
+			
 			break;
+
 		case 3:
-			simulasiWaktu();
+			simulasi_waktu();
 
 			main_antrian();
-			// *exit = 0;
+			
 			break;
+
 		case 4:
 			bantuan_aplikasi();
-			// *exit = 0;
+			
 			tombol_selanjutnya();
 
 			main_antrian();
 			break;
+
 		case 5:
-			pil = isEmpty();
+			pil = cek_antrian();
 			if(pil != 0){
 				printf("masih ada mobil yang sedang dicuci. tidak bisa keluar dari program.\n");
 				tombol_selanjutnya();
 
 				main_antrian();
-				// *exit = 0;
+				
 				break;	
 			}
-			// *exit = 1;
+			
 			system("cls");
 			printf("Hari ini, dengan total waktu kerja %d menit, didapat penghasilan sebesar Rp.%d\n",jumlah_waktu,jumlah_pendapatan);
 			printf("THANK YOU!!!\n\n");
 			header_aplikasi();	
 			break;
+
 	 	default:
 	 		salah_input_menu_antrian(); // REDIRECT KE salah_input_menu_antrian() UNTUK HANDLER PADA SAAT SALAH INPUT - LOKASI FILE : antrian.cpp
 			break;
@@ -239,7 +201,7 @@ void tombol_selanjutnya(){
 }
 
 void data_antrian(){
-	antre *tempat1, *tempat2;
+	antrian_cuci *tempat1, *tempat2;
 
 	printf("\nTempat Cuci Mobil 1 ");
 
@@ -269,6 +231,7 @@ void data_antrian(){
 		}		
 	}
 	
+	printf("\nWaktu ini : Rp.%d",jumlah_waktu);
 	printf("\nPendapatan hari ini : Rp.%d",jumlah_pendapatan);
 }
 
@@ -307,146 +270,293 @@ int salah_input_menu_antrian(){
 }
 // FUNCTION UNTUK ERROR HANDLING PADA INPUTAN PEMILIHAN MENU - END
 
+void input_kendaraan(){
+	char no_plat[15];
+	int cek, jenis, flag;
 
+	do{
+		printf("\nmasukkan Nomor Polisi kendaraan : ");
+		scanf("%s", &no_plat);
 
-
-
-// ////////////////////////////////////////////////////////////////
-
-
-int cekNama(char alias[], int *flag){
-	antre *temp1,*temp2;
-	temp1 = startSatu;
-	temp2 = startDua;
+		cek = cek_nopol(no_plat,&flag);
+		if(cek != 0){
+			printf("Nomor Polisi kendaraan sudah terdaftar! silahkan ganti.\n");
+		}
+	}while(cek != 0);
 	
-	int check = 0;
+	jenis = jenis_kendaraan();
+	if(jenis == 4){
+		main_antrian();
+		// break;
+	}
 
-	if(temp1 != NULL){
-		while(temp1 != NULL){
-			if(strcmp(alias,temp1->nama) == 0){
-				check++;
-				*flag = 1;	
-			}
-			temp1 = temp1->next;
-		}	
-	}
-	if(temp2 != NULL){
-		while(temp2 != NULL){
-			if(strcmp(alias,temp2->nama) == 0){
-				check++;
-				*flag = 2;
-			}
-			temp2 = temp2->next;
-		}	
-	}
-	
-	return check;
+	pra_enqueue(no_plat, jenis);
+
+	notif(no_plat, jenis);
 }
 
-int tipeCuci(){
-	int ch;
-	printf("\nNo.\t| Tipe\t\t\t\t| Lama Pengerjaan\t| harga\n");
-	printf("1.\t| Standard\t\t\t| %d menit\t\t| Rp.%d\n",age[0],harga[0]);
-	printf("2.\t| Standard + Kolong\t\t| %d menit\t\t| Rp.%d\n",age[1],harga[1]);
-	printf("3.\t| Standard + Kolong + Mesin\t| %d menit\t\t| Rp.%d\n",age[2],harga[2]);
-	printf("4. Tidak Jadi\n");
+void cancel_kendaraan(){
+	int pil;
+	char no_plat[15];
+	int cek, flag;
+
+	pil = cek_antrian();
+	if(pil == 0){
+		printf("ERROR! antrian kosong.");
+		tombol_selanjutnya();
+
+		main_antrian();
+	}
 	do{
-		printf("Pilihan : ");scanf("%d",&ch);
+		flag = 0;
+		printf("\n");
+		printf("Masukkan Nomor Polisi kendaraan yang ingin dikeluarkan dari antrian : ");
+		scanf("%s",&no_plat);
+
+		if(no_plat[0]=='0'){  // Jika mengetik "0" Maka program akan di break
+			break;
+		}
+
+		cek = cek_nopol(no_plat, &flag);
+		if(cek == 0){
+			printf("Tidak ada Kendaraan dengan Nomor Polisi tersebut. silahkan isi kembali.\n");
+		}
+	}while(cek == 0);
+
+	keluarin(flag,no_plat);
+}
+
+int cek_nopol(char no_plat[], int *flag){
+	antrian_cuci *tempat1, *tempat2;
+	tempat1 = startSatu;
+	tempat2 = startDua;
+	
+	int cek = 0;
+
+	if(tempat1 != NULL){
+		while(tempat1 != NULL){
+			if(strcmp(no_plat,tempat1->nama) == 0){
+				cek++;
+				*flag = 1;	
+			}
+			tempat1 = tempat1->next;
+		}	
+	}
+	if(tempat2 != NULL){
+		while(tempat2 != NULL){
+			if(strcmp(no_plat,tempat2->nama) == 0){
+				cek++;
+				*flag = 2;
+			}
+			tempat2 = tempat2->next;
+		}	
+	}
+	
+	return cek;
+}
+
+int jenis_kendaraan(){
+	int ch;
+
+	printf("|================================================================================================================|\n");
+	printf("|                                                 JENIS KENDARAAN                                                |\n");
+	printf("|================================================================================================================|\n");
+	printf("| No.| Jenis | Keterangan  |                            Sampel                             |   Waktu  |   Harga  |\n");
+	printf("| 1. |   A   | Mobil Kecil | KIA Picanto, Daihatsu Ceria, Suzuki Karimun, Toyota Yaris dll | %d menit | Rp.%d |\n",age[0],harga[0]);
+	printf("| 2. |   B   | Minibus     | Toyota Avanza, Honda Freed, Suzuki Ertiga, dll                | %d menit | Rp.%d |\n",age[1],harga[1]);
+	printf("| 3. |   C   | Mobil Besar | Metromini, Truk, dll                                          | %d menit | Rp.%d |\n",age[2],harga[2]);
+	printf("| 4. | Tidak Jadi                                                                                                |\n");
+	printf("|================================================================================================================|\n");
+
+	do{
+		printf("Pilihan : ");
+		scanf("%d", &ch);
 		if(ch<1 || ch>4){
 			printf("pilihan diantara 1 - 4, silahkan isi lagi.\n");
 		}
 	}while(ch<1 || ch>4);
+
 	return ch;
 }
 
-void countAntre(){
-	
-	int count;
-	antre *temp1,*temp2;
-	temp1 = startSatu;
-	temp2 = startDua;
+void keluarin(int flag, char no_plat[]){
+	antrian_cuci *tempat1,*tempat2; 
+	tempat1 = startSatu;
+	tempat2 = startDua;
 
 	
-	count = 0;
-	while(temp1 != NULL){
-		temp1 = temp1->next;
-		count++;
+	switch(flag){
+		case 1:
+			keluar_kendaraan(no_plat,tempat1);
+			break;
+		case 2:
+			keluar_kendaraan(no_plat,tempat2);
+			break;	
 	}
-	jumlahAntre[0] = count;
-	
-	count = 0;
-	while(temp2 != NULL){
-		
-		temp2 = temp2->next;
-		count++;
-		
-	}
-	jumlahAntre[1] = count;
-	
+	tombol_selanjutnya();	
 }
 
-void countUmur(){
-	antre *temp1,*temp2;
-	temp1 = startSatu;
-	temp2 = startDua;
-	
-	jumlahUmur[0] = 0;jumlahUmur[1] = 0;
-	
-	if(startSatu == NULL){
-		jumlahUmur[0] = 0;
-	}else{
-		while(temp1!=NULL){
-			jumlahUmur[0] += temp1->umur;
-			temp1 = temp1->next;
-		}	
+int cek_antrian(){
+	int cek;
+
+	cek = 0;
+
+	if(startSatu != NULL){
+		cek++;	
 	}
-	if(startDua == NULL){
-		jumlahUmur[1] = 0;
+
+	if(startDua != NULL){
+		cek++;
+	}
+
+	return cek;
+}
+
+int keluar_kendaraan(char no_plat[], antrian_cuci *tempat){
+	antrian_cuci *freed;
+	if(strcmp(no_plat,tempat->nama) == 0){
+		printf("\n");
+		printf("Kendaraan yang sedang dicuci tidak bisa dikeluarkan! silahkan tunggu sampai selesai.\n");
 	}else{
-		while(temp2!=NULL){
-			jumlahUmur[1] += temp2->umur;
-			temp2 = temp2->next;
+		while(strcmp(no_plat,tempat->next->nama)!=0){
+			tempat = tempat->next;
+		}
+		freed = tempat->next;
+		tempat->next = tempat->next->next;
+		free(freed);
+	}
+}
+
+void simulasi_waktu(){
+	if(startSatu != NULL){
+		startSatu->umur -= clock;
+	}
+	if(startDua != NULL){
+		startDua->umur -= clock;
+	}
+	cek_sisawaktu_cuci();
+}
+
+void cek_sisawaktu_cuci(){
+	if(startSatu != NULL){
+		if(startSatu->umur == 0){
+			dequeue(0);
+		}
+	}
+	if(startDua != NULL){
+		if(startDua->umur == 0){
+			dequeue(1);
 		}
 	}
 }
 
-void enqueue(char alias[], int tipe){
+void dequeue(int pilih){
+	antrian_cuci *tempat;
+
+	switch(pilih){
+		case 0:
+			tambah_pendapatan(startSatu->tipe);
+			tempat = startSatu;
+			startSatu = startSatu->next;
+			free(tempat);
+			break;
+
+		case 1:
+			tambah_pendapatan(startDua->tipe);
+			tempat = startDua;
+			startDua = startDua->next;
+			free(tempat);
+			break;
+	}
+}
+
+void tambah_pendapatan(int pilih){
+	switch(pilih){
+		case 1:
+			jumlah_pendapatan += harga[0];
+			jumlah_waktu += age[0];
+			break;
+
+		case 2:
+			jumlah_pendapatan += harga[1];
+			jumlah_waktu += age[1];
+			break;
+
+		case 3:
+			jumlah_pendapatan += harga[2];
+			jumlah_waktu += age[2];
+			break;
+	}
+}
+
+void pra_enqueue(char no_plat[], int tipe){
 	int choice;
 	
-	antre *make, *temp;
-	make = (antre*)malloc(sizeof(antre));
+	antrian_cuci *make, *tempat;
+	make = (antrian_cuci*)malloc(sizeof(antrian_cuci));
 	
 	if(make == NULL){
 		printf("\nerror, tidak tersedia memori\n");
 	}else{
-		strcpy(make->nama,alias);
+		strcpy(make->nama,no_plat);
 		make->next = NULL;
+
 		switch(tipe){
 			case 1:
 				make->tipe = 1;
 				make->umur = age[0];
 				break;
+
 			case 2:
 				make->tipe = 2;
 				make->umur = age[1];
 				break;
+
 			case 3:
 				make->tipe = 3;
 				make->umur = age[2];	
+				break;
 		}
 	}
 	
-	countUmur();
+	countUmur(); //sampai sini
+
 	choice = pilih();
 	switch(choice){
 		case 0:
-			temp = startSatu;
-			enq(make,temp,choice);
+			tempat = startSatu;
+			enqueue_proses(make,tempat,choice);
 			break;
 		case 1:
-			temp = startDua;
-			enq(make,temp,choice);
+			tempat = startDua;
+			enqueue_proses(make,tempat,choice);
 			break;
+	}
+}
+
+void countUmur(){
+	antrian_cuci *tempat1,*tempat2;
+	tempat1 = startSatu;
+	tempat2 = startDua;
+	
+	jumlahUmur[0] = 0;
+	jumlahUmur[1] = 0;
+	
+	if(startSatu == NULL){
+		jumlahUmur[0] = 0;
+	}else{
+		while(tempat1!=NULL){
+			jumlahUmur[0] += tempat1->umur;
+			tempat1 = tempat1->next;
+		}	
+	}
+	if(startDua == NULL){
+		jumlahUmur[1] = 0;
+	}else{
+		while(tempat2!=NULL){
+			jumlahUmur[1] += tempat2->umur;
+			tempat2 = tempat2->next;
+		}
 	}
 }
 
@@ -455,8 +565,8 @@ int pilih(){
 	jumlahUmurAscending[0] = jumlahUmur[0];
 	jumlahUmurAscending[1] = jumlahUmur[1];
 	
-	for (c = 0 ; c < 1; c++){                     // masih bingung
-    	for (d = 0 ; d < 1 - c ; d++){            // masih bingung
+	for (c = 0 ; c < 1; c++){                     // harus dipahami
+    	for (d = 0 ; d < 1 - c ; d++){            
       		if (jumlahUmurAscending[d] > jumlahUmurAscending[d+1]){
         		swap = jumlahUmurAscending[d];
         		jumlahUmurAscending[d] = jumlahUmurAscending[d+1];
@@ -473,9 +583,9 @@ int pilih(){
   	return c;
 }
 
-void enq(antre *make, antre *temp, int choice){
+void enqueue_proses(antrian_cuci *make, antrian_cuci *tempat, int choice){
 	
-	if(temp == NULL){
+	if(tempat == NULL){
 		switch(choice){
 		case 0:
 			startSatu = make;
@@ -485,136 +595,39 @@ void enq(antre *make, antre *temp, int choice){
 			break;
 		}
 	}else{
-		while(temp->next != NULL){
-			temp = temp->next;
+		while(tempat->next != NULL){
+			tempat = tempat->next;
 		}
 		make->next = NULL;
-		temp->next = make;		
+		tempat->next = make;		
 	}	
-}			
-
-void simulasiWaktu(){
-	if(startSatu != NULL){
-		startSatu->umur -= clock;
-	}
-	if(startDua != NULL){
-		startDua->umur -= clock;
-	}
-	checkUmurStart();
 }
 
-void notif(char alias[], int tipe){
+void notif(char no_plat[], int tipe){
 	int temp_waktu;
-	printf("\nmobil %s berhasil ditambahkan, perkiraan lama waktu hingga selesai adalah",alias);
+
+	printf("\n");
+	printf("mobil %s berhasil ditambahkan, perkiraan lama waktu hingga selesai adalah",no_plat);
+
 	switch(tipe){
 		case 1:
-			temp_waktu = age[0];break;
+			temp_waktu = age[0];
+			break;
 		case 2:
-			temp_waktu = age[1];break;
+			temp_waktu = age[1];
+			break;
 		case 3:
-			temp_waktu = age[2];break;	
-		}
-	switch(antrean){
-		case 0:
-			printf(" %d menit.\n",jumlahUmur[0]+temp_waktu);break;
-		case 1:
-			printf(" %d menit.\n",jumlahUmur[1]+temp_waktu);break;
-		
-		}
-}
-
-void checkUmurStart(){
-	if(startSatu != NULL){
-		if(startSatu->umur == 0){
-			dequeue(0);
-		}
-	}
-	if(startDua != NULL){
-		if(startDua->umur == 0){
-			dequeue(1);
-		}
-	}
-	
-}
-
-void dequeue(int pilih){
-	antre *temp;
-	switch(pilih){
-		case 0:
-			tambahPendapatan(startSatu->tipe);
-			temp = startSatu;
-			startSatu = startSatu->next;
-			free(temp);
-			break;
-		case 1:
-			tambahPendapatan(startDua->tipe);
-			temp = startDua;
-			startDua = startDua->next;
-			free(temp);
-			break;
-		
-	}
-}
-
-void tambahPendapatan(int pilih){
-	switch(pilih){
-		case 1:
-			jumlah_pendapatan += harga[0];break;
-			jumlah_waktu += age[0];
-		case 2:
-			jumlah_pendapatan += harga[1];break;
-			jumlah_waktu += age[1];
-		case 3:
-			jumlah_pendapatan += harga[2];break;
-			jumlah_waktu += age[2];
-	}
-}
-
-void keluarin(int flag, char alias[]){
-	antre *temp1,*temp2; 
-	temp1 = startSatu;
-	temp2 = startDua;
-
-	
-	switch(flag){
-		case 1:
-			out(alias,temp1);
-			break;
-		case 2:
-			out(alias,temp2);
+			temp_waktu = age[2];
 			break;	
 	}
-	tombol_selanjutnya();	
-}
 
-int out(char alias[], antre* temp){
-	antre *freed;
-	if(strcmp(alias,temp->nama) == 0){
-		printf("\nmobil yang sedang dalam pencucian tidak bisa dikeluarkan, silahkan menunggu sebentar.\n");
-	}else{
-		while(strcmp(alias,temp->next->nama)!=0){
-			temp = temp->next;
-		}
-		freed = temp->next;
-		temp->next = temp->next->next;
-		free(freed);
+	switch(antrean){
+		case 0:
+			printf(" %d menit.\n",jumlahUmur[0]+temp_waktu);
+			break;
+		case 1:
+			printf(" %d menit.\n",jumlahUmur[1]+temp_waktu);
+			break;
+		
 	}
 }
-
-
-
-
-
-
-	
-int isEmpty(){
-	int check;
-	if(startSatu != NULL){
-			check++;	
-	}
-	if(startDua != NULL){
-			check++;
-	}
-	return check;
-}
-

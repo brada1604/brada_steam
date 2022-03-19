@@ -9,25 +9,26 @@ void data_antrian();
 // void menu(int *pm);
 // void menuTerpilih(int mt,int *exit);
 void tombol_selanjutnya();
-int cekNama(char alias[], int *flag);
-int tipeCuci();
-void countAntre();
+int cek_nopol(char no_plat[], int *flag);
+int jenis_kendaraan();
 void countUmur();
-void enqueue(char alias[],int tipe);
+void pra_enqueue(char no_plat[],int tipe);
 int pilih();
-void enq(struct antre *make, struct antre *temp, int choice);
-void notif(char alias[], int tipe);
-void simulasiWaktu();
-void checkUmurStart();
+void enqueue_proses(struct antrian_cuci *make, struct antrian_cuci *tempat, int choice);
+void notif(char no_plat[], int tipe);
+void simulasi_waktu();
+void cek_sisawaktu_cuci();
 void dequeue(int pilih);
-void tambahPendapatan(int pilih);
-void keluarin(int flag,char alias[]);
-int out(char alias[], struct antre* temp);
+void tambah_pendapatan(int pilih);
+void keluarin(int flag, char no_plat[]);
+int keluar_kendaraan(char no_plat[], struct antrian_cuci *tempat);
 void tampilanAwal();
 void header_aplikasi();
 void bantuan_aplikasi();
 void footer_aplikasi();
-int isEmpty();
+int cek_antrian();
+void input_kendaraan();
+void cancel_kendaraan();
 // DEKLARASI MODUL
 
 #endif
