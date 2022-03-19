@@ -80,31 +80,32 @@ int main_antrian(){
 			break;
 
 		case 2:
-			cancel_kendaraan();
+			cancel_kendaraan(); // PROSES MENGELUARKAN KENDARAAN DARI ANTRIAN
 
 			main_antrian(); // MODUL UTAMA
 			
 			break;
 
 		case 3:
-			simulasi_waktu();
+			simulasi_waktu(); // PROSES UNTUK SIMULASI PENCUCIAN MOBIL DENGAN DURASI TERTENTU
 
 			main_antrian(); // MODUL UTAMA
 			
 			break;
 
 		case 4:
-			bantuan_aplikasi();
+			bantuan_aplikasi(); // MENAMPILKAN SEMACAM PANDUAN APABILA ADA USER YANG KURANG FAMILIAR DENGAN APLIKASI
 			
 			tombol_selanjutnya(); // MODUL UNTUK ALTERNATIF BY PASS
 
 			main_antrian(); // MODUL UTAMA
+
 			break;
 
 		case 5:
 			pil = cek_antrian();
-			if(pil != 0){
-				printf("masih ada mobil yang sedang dicuci. tidak bisa keluar dari program.\n");
+			if(pil != 0){ // JIKA RETURN NILAI NYA ADALAH 0, MAKA ARTINYA SUDAH TIDAK ADA MOBIL YANG DI CUCI ATAU MENGANTRI
+				printf("Masih ada mobil yang sedang dicuci! Tidak bisa keluar dari program.\n");
 				tombol_selanjutnya(); // MODUL UNTUK ALTERNATIF BY PASS
 
 				main_antrian(); // MODUL UTAMA
@@ -113,9 +114,13 @@ int main_antrian(){
 			}
 			
 			system("cls");
-			printf("Hari ini, dengan total waktu kerja %d menit, didapat total kendaraan yang dicuci sebanyak %d mobil\n",jumlah_waktu,jumlah_kendaraan);
-			printf("THANK YOU!!!\n\n");
+
 			header_aplikasi();	
+			printf("\n");
+			printf("  Total waktu mencuci mobil adalah %d menit, dengan total kendaraan yang dicuci sebanyak %d mobil\n",jumlah_waktu,jumlah_kendaraan);
+			printf("  Terimakasih! Sampai Jumpa Kembali\n\n");
+			footer_aplikasi();	
+
 			break;
 
 	 	default:
@@ -133,16 +138,19 @@ void header_aplikasi(){
 	printf("|===========================================================================================================|\n");
 }
 
+// FUNTION UNTUK BANTUAN APABILA ADA KESULITAN DALAM PENGGUNAAN APLIKASI
 void bantuan_aplikasi(){
 	printf("\n");
 	printf("BANTUAN PADA APLIKASI BRADA STEAM (PANDUAN) : \n");
 	printf("- Tabel paling atas merupakan list antrian mobil beserta tempat pencuciannya\n");
+	printf("- Ketik '0' pada setiap inputan, jika kamu tidak akan jadi melakukan hal tersebut (input data)\n");
 	printf("- ketik '1' pada menu untuk input kendaraan\n");
 	printf("- ketik '2' pada menu apabila ada kendaraan yang tidak jadi di cuci namun masih pada antrian\n");
 	printf("- ketik '3' pada menu untuk melakukan pencucian selama 15 menit ke depan\n");
 	printf("- ketik '4' pada menu untuk bantuan penggunaan aplikasi\n");
 	printf("- ketik '5' pada menu untuk keluar dari aplikasi\n");
 }
+// FUNTION UNTUK BANTUAN APABILA ADA KESULITAN DALAM PENGGUNAAN APLIKASI - END
 
 void footer_aplikasi(){
 	printf("|===========================================================================================================|\n");
@@ -255,20 +263,24 @@ void input_kendaraan(){
 }
 // FUNCTION UNTUK INPUT DATA KENDARAAN - END
 
+// FUNCTION UNTUK MENGELUARKAN KENDARAAN DARI ANTRIAN DALAM ARTIAN TIDAK JADI MENCUCI MOBIL
 void cancel_kendaraan(){
+	// DEKLARASI VARIABEL LOKAL
 	int pil;
 	char no_plat[15];
 	int cek, tanda_tempat;
 
 	pil = cek_antrian();
-	if(pil == 0){
+	if(pil == 0){ // JIKA RETURN NILAI NYA 0 MAKA LIST NYA SEDANG KOSONG
 		printf("ERROR! antrian kosong.");
 		tombol_selanjutnya();  // MODUL UNTUK ALTERNATIF BY PASS
 
 		main_antrian(); // MODUL UTAMA
 	}
+
 	do{
 		tanda_tempat = 0;
+
 		printf("\n");
 		printf("Masukkan Nomor Polisi kendaraan yang ingin dikeluarkan dari antrian : ");
 		scanf("%s",&no_plat);
@@ -278,13 +290,14 @@ void cancel_kendaraan(){
 		}
 
 		cek = cek_nopol(no_plat, &tanda_tempat);
-		if(cek == 0){
+		if(cek == 0){ // JIKA RETURN NILAINYA 0 ARTINYA TIDAK ADA KENDARAAN DENGAN NOPOL YANG DI INPUTKAN
 			printf("Tidak ada Kendaraan dengan Nomor Polisi tersebut. silahkan isi kembali.\n");
 		}
 	}while(cek == 0);
 
-	keluarin(tanda_tempat,no_plat);
+	keluarkan(tanda_tempat,no_plat); // PROSES MENGELUARKAN KENDARAAN
 }
+// FUNCTION UNTUK MENGELUARKAN KENDARAAN DARI ANTRIAN DALAM ARTIAN TIDAK JADI MENCUCI MOBIL
 
 // FUNCTION UNTUK CEK NOMOR POLISI KENDARAAN
 int cek_nopol(char no_plat[], int *tanda_tempat){
@@ -322,7 +335,8 @@ int cek_nopol(char no_plat[], int *tanda_tempat){
 int jenis_kendaraan(){
 	// DEKLARASI VARIABEL LOKAL
 	int pilihan_jenis_kendaraan;
-
+	printf("\n");
+	printf("\n");
 	printf("|=====================================================================================================|\n");
 	printf("|                                            JENIS KENDARAAN                                          |\n");
 	printf("|=====================================================================================================|\n");
@@ -333,7 +347,8 @@ int jenis_kendaraan(){
 	printf("|=====================================================================================================|\n");
 
 	do{
-		printf("Masukan Pilihan (1-3) : ");
+		printf("\n");
+		printf("Pilih Jenis Kendaraan (1-3) : ");
 		scanf("%d", &pilihan_jenis_kendaraan);
 
 		if((pilihan_jenis_kendaraan < 0) || (pilihan_jenis_kendaraan > 3)){ // JIKA INPUTAN KURANG DARI 0 ATAU LEBIH DARI 3 MAKA KELUAR ALERT
@@ -344,7 +359,8 @@ int jenis_kendaraan(){
 	return pilihan_jenis_kendaraan;
 }
 
-void keluarin(int tanda_tempat, char no_plat[]){
+// FUNCTION UNTUK PROSES MENGELUARKAN KENDARAAN BERDASARKAN TEMPAT CUCI
+void keluarkan(int tanda_tempat, char no_plat[]){
 	antrian_cuci *tempat1,*tempat2; 
 	tempat1 = tempat_cuci_1;
 	tempat2 = tempat_cuci_2;
@@ -360,8 +376,11 @@ void keluarin(int tanda_tempat, char no_plat[]){
 	}
 	tombol_selanjutnya(); // MODUL UNTUK ALTERNATIF BY PASS	
 }
+// FUNCTION UNTUK PROSES MENGELUARKAN KENDARAAN BERDASARKAN TEMPAT CUCI - END
 
+// FUNTION UNTUK CEK ANTRIAN MOBIL
 int cek_antrian(){
+	// DEKLARASI VARIABEL LOKAL
 	int cek;
 
 	cek = 0;
@@ -376,66 +395,81 @@ int cek_antrian(){
 
 	return cek;
 }
+// FUNTION UNTUK CEK ANTRIAN MOBIL
 
+// FUNCTION UNTUK PROSES MENGELUARKAN MOBIL DARI LIST / ANTRIAN
 int keluar_kendaraan(char no_plat[], antrian_cuci *tempat){
-	antrian_cuci *freed;
-	if(strcmp(no_plat,tempat->nopol) == 0){
+	antrian_cuci *kendaraan_siap_keluar_antrian;
+
+	if(strcmp(no_plat,tempat->nopol) == 0){ // JIKA RETURNNYA 0, ITU ARTINYA MOBIL SEDANG DICUCI, KARENA ITU ELEMEN PALING AWAL / KENDARAAN YANG MEMANG SEDANG DI CUCI
 		printf("\n");
-		printf("Kendaraan yang sedang dicuci tidak bisa dikeluarkan! silahkan tunggu sampai selesai.\n");
+		printf("Kendaraan sedang dicuci! tunggu hingga selesai.\n");
 	}else{
-		while(strcmp(no_plat,tempat->next->nopol)!=0){
+		while(strcmp(no_plat,tempat->next->nopol)!=0){ // PROSES PENCARIAN NOPOL YANG SAMA ANTARA INPUTAN DENGAN YANG ADA DI ANTRIAN
 			tempat = tempat->next;
 		}
-		freed = tempat->next;
+		kendaraan_siap_keluar_antrian = tempat->next;
 		tempat->next = tempat->next->next;
-		free(freed);
+		free(kendaraan_siap_keluar_antrian);
 	}
 }
+// FUNCTION UNTUK PROSES MENGELUARKAN MOBIL DARI LIST / ANTRIAN - END
 
+// FUNCTION UNTUK SIMULASI PENCUCIAN MOBIL DENGAN DURASI YANG SUDAH DI SET DI VARIABEL GLOBAL
 void simulasi_waktu(){
 	if(tempat_cuci_1 != NULL){
 		tempat_cuci_1->durasi -= durasi_simulasi;
 	}
+
 	if(tempat_cuci_2 != NULL){
 		tempat_cuci_2->durasi -= durasi_simulasi;
 	}
+
 	cek_sisawaktu_cuci();
 }
+// FUNCTION UNTUK SIMULASI PENCUCIAN MOBIL DENGAN DURASI YANG SUDAH DI SET DI VARIABEL GLOBAL
 
+// FUNTION UNTUK CEK SISA WAKTU MENCUCI MOBIL
 void cek_sisawaktu_cuci(){
 	if(tempat_cuci_1 != NULL){
 		if(tempat_cuci_1->durasi == 0){
 			dequeue(0);
 		}
 	}
+
 	if(tempat_cuci_2 != NULL){
 		if(tempat_cuci_2->durasi == 0){
 			dequeue(1);
 		}
 	}
 }
+// FUNTION UNTUK CEK SISA WAKTU MENCUCI MOBIL
 
+// FUNCTION UNTUK DEQUE ATAU MENGHAPUS DATA DARI ANTRIAN (QUEUE)
 void dequeue(int pilih){
+	// DEKLARASI VARIABEL LOKAL
 	antrian_cuci *tempat;
 
 	switch(pilih){
 		case 0:
-			tambah_pendapatan(tempat_cuci_1->golongan);
+			hitung_total(tempat_cuci_1->golongan);
 			tempat = tempat_cuci_1;
 			tempat_cuci_1 = tempat_cuci_1->next;
-			free(tempat);
+			free(tempat); // DI DEALOKASI
 			break;
 
 		case 1:
-			tambah_pendapatan(tempat_cuci_2->golongan);
+			hitung_total(tempat_cuci_2->golongan);
 			tempat = tempat_cuci_2;
 			tempat_cuci_2 = tempat_cuci_2->next;
-			free(tempat);
+			free(tempat); // DI DEALOKASI
 			break;
 	}
 }
+// FUNCTION UNTUK DEQUE ATAU MENGHAPUS DATA DARI ANTRIAN (QUEUE) - END
 
-void tambah_pendapatan(int pilih){
+// FUNCTION UNTUK MENGHITUNG TOTAL KENDARAAN YANG SUDAH DI CUCI DAN JUGA TOTAL DURASI PENCUCIANNYA
+void hitung_total(int pilih){
 	switch(pilih){
 		case 1:
 			jumlah_kendaraan++;
@@ -453,56 +487,59 @@ void tambah_pendapatan(int pilih){
 			break;
 	}
 }
+// FUNCTION UNTUK MENGHITUNG TOTAL KENDARAAN YANG SUDAH DI CUCI DAN JUGA TOTAL DURASI PENCUCIANNYA - END
 
 // FUNCTION UNTUK PROSES PENGINPUTAN DATA KENDARAAN KE TEMPAT PENCUCIAN, DAN JUGA MEMILIH ANTARA TEMPAT CUCI 1 ATAU TEMPAT CUCI 2
 void pra_enqueue(char no_plat[], int golongan){
 	// DEKLARASI VARIABEL LOKAL
 	int pilihan;
+	antrian_cuci *data_inputan, *tempat;
+	data_inputan = (antrian_cuci*)malloc(sizeof(antrian_cuci)); // ALOKASI VARIABEL
 	
-	antrian_cuci *make, *tempat;
-	make = (antrian_cuci*)malloc(sizeof(antrian_cuci));
-	
-	if(make == NULL){
-		printf("\nerror, tidak tersedia memori\n");
+	if(data_inputan == NULL){ // JIKA VARIABEL data_inputan NULL, BERARTI TIDAK ADA 1 PUN ELEMEN DALAM LIST ATAU ALOKASI GAGAL DILAKUKAN, MAKA AKAN KELUAR ALERT
+		printf("\n");
+		printf("ERROR! Tidak tersedia memori\n");
 	}else{
-		strcpy(make->nopol,no_plat);
-		make->next = NULL;
+		strcpy(data_inputan->nopol,no_plat); // INPUT NOPOL KENDARAAN KE LIST BARU
+		data_inputan->next = NULL; // LIST data_inputan->next MENUNJUK NULL
 
 		switch(golongan){
 			case 1:
-				make->golongan = 1;
-				make->durasi = pilihan_durasi[0];
+				data_inputan->golongan = 1;
+				data_inputan->durasi = pilihan_durasi[0];
 				break;
 
 			case 2:
-				make->golongan = 2;
-				make->durasi = pilihan_durasi[1];
+				data_inputan->golongan = 2;
+				data_inputan->durasi = pilihan_durasi[1];
 				break;
 
 			case 3:
-				make->golongan = 3;
-				make->durasi = pilihan_durasi[2];	
+				data_inputan->golongan = 3;
+				data_inputan->durasi = pilihan_durasi[2];	
 				break;
 		}
 	}
 	
-	countUmur(); //sampai sini
+	hitung_durasi(); // PROSES PENGHITUNGAN DURASI PENCUCIAN MOBIL
 
-	pilihan = pilih();
+	pilihan = pilih_tempat_cuci(); // PROSES PEMILIHAN TEMPAT CUCI BERDASARKAN DURASI TERPENDEK YANG AKAN SELESAI DARI PROSES PENCUCIAN
 	switch(pilihan){
 		case 0:
 			tempat = tempat_cuci_1;
-			enqueue_proses(make,tempat,pilihan);
+			enqueue_proses(data_inputan,tempat,pilihan);
 			break;
+
 		case 1:
 			tempat = tempat_cuci_2;
-			enqueue_proses(make,tempat,pilihan);
+			enqueue_proses(data_inputan,tempat,pilihan);
 			break;
 	}
 }
 // FUNCTION UNTUK PROSES PENGINPUTAN DATA KENDARAAN KE TEMPAT PENCUCIAN, DAN JUGA MEMILIH ANTARA TEMPAT CUCI 1 ATAU TEMPAT CUCI 2 - END
 
-void countUmur(){
+// FUNCTION UNTUK MENGHITUNG DURASI PENCUCIAN MOBIL
+void hitung_durasi(){
 	antrian_cuci *tempat1,*tempat2;
 	tempat1 = tempat_cuci_1;
 	tempat2 = tempat_cuci_2;
@@ -513,71 +550,79 @@ void countUmur(){
 	if(tempat_cuci_1 == NULL){
 		jumlah_durasi[0] = 0;
 	}else{
-		while(tempat1!=NULL){
+		while(tempat1 != NULL){
 			jumlah_durasi[0] += tempat1->durasi;
 			tempat1 = tempat1->next;
 		}	
 	}
+
 	if(tempat_cuci_2 == NULL){
 		jumlah_durasi[1] = 0;
 	}else{
-		while(tempat2!=NULL){
+		while(tempat2 != NULL){
 			jumlah_durasi[1] += tempat2->durasi;
 			tempat2 = tempat2->next;
 		}
 	}
 }
+// FUNCTION UNTUK MENGHITUNG DURASI PENCUCIAN MOBIL - END
 
-int pilih(){
+// FUNCTION UNTUK PROSES PENENTUAN TEMPAT CUCI MOBIL
+int pilih_tempat_cuci(){
 	int c, d, swap;
 	int jumlah_durasi_asc[2];
 
 	jumlah_durasi_asc[0] = jumlah_durasi[0];
 	jumlah_durasi_asc[1] = jumlah_durasi[1];
 	
-	for (c = 0 ; c < 1; c++){                     // harus dipahami
-    	for (d = 0 ; d < 1 - c ; d++){            
-      		if (jumlah_durasi_asc[d] > jumlah_durasi_asc[d+1]){
-        		swap = jumlah_durasi_asc[d];
-        		jumlah_durasi_asc[d] = jumlah_durasi_asc[d+1];
-        		jumlah_durasi_asc[d+1] = swap;
-      		}
-    	}
+        
+	for (d = 0; d < 1; d++){            
+  		if (jumlah_durasi_asc[d] > jumlah_durasi_asc[d+1]){
+    		swap = jumlah_durasi_asc[d];
+    		jumlah_durasi_asc[d] = jumlah_durasi_asc[d+1];
+    		jumlah_durasi_asc[d+1] = swap;
+  		}
 	}
+
 	for (c = 0; c < 2; c++){
     	if (jumlah_durasi[c] == jumlah_durasi_asc[0]){
         	break;
     	}
 	}
+
 	antrean = c;
   	return c;
 }
+// FUNCTION UNTUK PROSES PENENTUAN TEMPAT CUCI MOBIL
 
-void enqueue_proses(antrian_cuci *make, antrian_cuci *tempat, int choice){
-	
+// FUNCTION UNTUK ENQUEUE DATA KE LIST
+void enqueue_proses(antrian_cuci *data_inputan, antrian_cuci *tempat, int pilihan){
 	if(tempat == NULL){
-		switch(choice){
+		switch(pilihan){
 		case 0:
-			tempat_cuci_1 = make;
+			tempat_cuci_1 = data_inputan;
 			break;
 		case 1:
-			tempat_cuci_2 = make;
+			tempat_cuci_2 = data_inputan;
 			break;
 		}
 	}else{
 		while(tempat->next != NULL){
 			tempat = tempat->next;
 		}
-		make->next = NULL;
-		tempat->next = make;		
+		data_inputan->next = NULL;
+		tempat->next = data_inputan;		
 	}	
 }
+// FUNCTION UNTUK ENQUEUE DATA KE LIST - END
 
+// FUNCTION UNTUK PUSH NOTIFIKASI
 void notifikasi_status(char no_plat[], int golongan){
+	// DEKLARASI VARIABEL LOKAL
 	int temp_waktu;
 
 	printf("\n");
-	printf("mobil %s berhasil ditambahkan, perkiraan lama waktu hingga selesai adalah",no_plat);
+	printf("Mobil dengan Plat Nomor %s berhasil ditambahkan keantrian pada tempat cuci no - %d, perkiraan durasi pencucian",no_plat, antrean+1);
 
 	switch(golongan){
 		case 1:
@@ -593,11 +638,14 @@ void notifikasi_status(char no_plat[], int golongan){
 
 	switch(antrean){
 		case 0:
-			printf(" %d menit.\n",jumlah_durasi[0]+temp_waktu);
+			printf(" %d menit dan durasi antri sekitar",temp_waktu);
+			printf(" %d menit.\n",jumlah_durasi[0]);
 			break;
 		case 1:
-			printf(" %d menit.\n",jumlah_durasi[1]+temp_waktu);
+			printf(" %d menit dan durasi antri sekitar",temp_waktu);
+			printf(" %d menit.\n",jumlah_durasi[1]);
 			break;
 		
 	}
 }
+// FUNCTION UNTUK PUSH NOTIFIKASI - END
