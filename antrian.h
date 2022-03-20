@@ -9,6 +9,7 @@ void footer_aplikasi();
 void tombol_selanjutnya();
 void data_antrian();
 void konversi_waktu();
+void konversi_waktu_cuci(int menit_cuci);
 void input_kendaraan();
 void cancel_kendaraan();
 int cek_nopol(char no_plat[], int *tanda_tempat);

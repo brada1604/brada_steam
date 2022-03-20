@@ -22,6 +22,9 @@ struct antrian_cuci{
 	char nopol[15];
 	int golongan;
 	int durasi;
+	int waktu_in;
+	int waktu_proses;
+	int waktu_out;
 	address next;
 };
 
@@ -239,11 +242,16 @@ void data_antrian(){
 		printf("[ Kosong ]");
 	}else{
 		tempat1 = tempat_cuci_1;
-		printf("[ %s - sisa : %d menit ] ",tempat1->nopol,tempat1->durasi);
+		printf("[ %s - sisa : %d menit - in : ",tempat1->nopol,tempat1->durasi);
+		konversi_waktu_cuci(tempat1->waktu_in);
+		printf(" ] ");
+
 		tempat1 = tempat1->next;
 		while(tempat1 != NULL){
 			printf("\n");
-			printf("                    ^ %s (%d menit) ",tempat1->nopol,tempat1->durasi);
+			printf("                    ^ %s (%d menit - in : ",tempat1->nopol,tempat1->durasi);
+			konversi_waktu_cuci(tempat1->waktu_in);
+			printf(" ) ");
 			tempat1 = tempat1->next;
 		}		
 	}
@@ -256,11 +264,16 @@ void data_antrian(){
 		printf("[ Kosong ]");
 	}else{
 		tempat2 = tempat_cuci_2;
-		printf("[ %s - sisa : %d menit ] ",tempat2->nopol,tempat2->durasi);
+		printf("[ %s - sisa : %d menit - in : ",tempat2->nopol,tempat2->durasi);
+		konversi_waktu_cuci(tempat2->waktu_in);
+		printf(" ] ");
+
 		tempat2 = tempat2->next;
 		while(tempat2 != NULL){
 			printf("\n");
-			printf("                    ^ %s (%d menit) ",tempat2->nopol,tempat2->durasi);
+			printf("                    ^ %s (%d menit - in : ",tempat2->nopol,tempat2->durasi);
+			konversi_waktu_cuci(tempat2->waktu_in);
+			printf(" ) ");
 			tempat2 = tempat2->next;
 		}		
 	}
@@ -284,6 +297,19 @@ void konversi_waktu(){
 	d = detik % 60;
 
 	printf("Pukul : %d:%d:%d \n", j, m, d);
+
+}
+
+void konversi_waktu_cuci(int menit_cuci){
+	int j, m, d, detik;
+
+	detik = menit_cuci * 60;
+
+	j = (detik / 3600) + 7; // TAMBAH 7 KARENA BUKA DARI JAM 7
+	m = (detik % 3600/60);
+	d = detik % 60;
+
+	printf("%d:%d:%d", j, m, d);
 
 }
 // FUNTION UNTUK KONVERSI WAKTU - END
@@ -384,9 +410,11 @@ void cancel_kendaraan(){
 	do{
 		tanda_tempat = 0;
 
+		fflush(stdin);
 		printf("\n");
 		printf("Masukkan Nomor Polisi kendaraan yang ingin dikeluarkan dari antrian : ");
-		scanf("%s",&no_plat);
+		scanf("%[^\n]",&no_plat);
+		fflush(stdin);
 
 		if(no_plat[0]=='0'){  // Jika mengetik "0" Maka program akan di break
 			break;
@@ -613,16 +641,19 @@ void pra_enqueue(char no_plat[], int golongan){
 			case 1:
 				data_inputan->golongan = 1;
 				data_inputan->durasi = pilihan_durasi[0];
+				data_inputan->waktu_in = pukul_waktu;
 				break;
 
 			case 2:
 				data_inputan->golongan = 2;
 				data_inputan->durasi = pilihan_durasi[1];
+				data_inputan->waktu_in = pukul_waktu;
 				break;
 
 			case 3:
 				data_inputan->golongan = 3;
 				data_inputan->durasi = pilihan_durasi[2];	
+				data_inputan->waktu_in = pukul_waktu;	
 				break;
 		}
 	}
