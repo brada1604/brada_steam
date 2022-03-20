@@ -17,6 +17,7 @@ int jenis_kendaraan();
 void keluarkan(int tanda_tempat, char no_plat[]);
 int cek_antrian();
 int keluar_kendaraan(char no_plat[], struct antrian_cuci *tempat);
+void skip_waktu_berjalan(int m);
 void simulasi_waktu();
 void cek_sisawaktu_cuci();
 void dequeue(int pilih);

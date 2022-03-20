@@ -83,7 +83,7 @@ int main_antrian(){
 		printf("|=================================================|\n");
 		printf("|          Silahkan Pilih Menu Dibawah :          |\n");
 		printf("|=================================================|\n");
-		printf("| 3. Simulasi waktu (%d menit)                    |\n",durasi_simulasi);
+		printf("| 3.  Simulasi waktu (%d menit)                   |\n",durasi_simulasi);
 		printf("|                                                 |\n");
 		printf("|=================================================|\n");
 		printf("             Copyright 2022 - BradaSteam           \n");
@@ -112,11 +112,20 @@ int main_antrian(){
 		printf("|=================================================|\n");
 		printf("|          Silahkan Pilih Menu Dibawah :          |\n");
 		printf("|=================================================|\n");
-		printf("| 1. Input Kendaraan                              |\n");
-		printf("| 2. Keluarkan Kendaraan Dari Antrian             |\n");
-		printf("| 3. Simulasi waktu (%d menit)                    |\n",durasi_simulasi);
-		printf("| 4. Bantuan                                      |\n");
-		printf("| 5. Selesai                                      |\n");
+		printf("| 1.  Input Kendaraan                             |\n");
+		printf("| 2.  Keluarkan Kendaraan Dari Antrian            |\n");
+		printf("| 3.  Simulasi waktu (%d menit)                   |\n",durasi_simulasi);
+		printf("| 4.  Bantuan                                     |\n");
+		printf("| 5.  Selesai                                     |\n");
+
+	if((tempat_cuci_1 == NULL) && (tempat_cuci_2 == NULL)){
+		printf("| 6.  Skip (10 Menit)                             |\n");
+		printf("| 7.  Skip (15 Menit)                             |\n");
+		printf("| 8.  Skip (30 Menit)                             |\n");
+		printf("| 9.  Skip (45 Menit)                             |\n");
+		printf("| 10. Skip (60 Menit)                             |\n");
+	}
+
 		printf("|                                                 |\n");
 		printf("|=================================================|\n");
 		printf("             Copyright 2022 - BradaSteam           \n");
@@ -556,6 +565,12 @@ int keluar_kendaraan(char no_plat[], antrian_cuci *tempat){
 	}
 }
 // FUNCTION UNTUK PROSES MENGELUARKAN MOBIL DARI LIST / ANTRIAN - END
+
+// FUNTION UNTUK SKIP WAKTU SISTEM PENCUCIAN
+void skip_waktu_berjalan(int m){
+	pukul_waktu += m; // SKIP WAKTU BERJALAN SEBANYAK m MENIT
+}
+// FUNTION UNTUK SKIP WAKTU SISTEM PENCUCIAN - END
 
 // FUNCTION UNTUK SIMULASI PENCUCIAN MOBIL DENGAN DURASI YANG SUDAH DI SET DI VARIABEL GLOBAL
 void simulasi_waktu(){
