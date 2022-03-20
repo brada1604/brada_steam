@@ -34,8 +34,8 @@ struct antrian_cuci{
 	address next;
 };
 
-antrian_cuci *tempat_cuci_1 = NULL;
-antrian_cuci *tempat_cuci_2 = NULL;
+antrian_cuci *tempat_cuci_1 = NULL; // LIST MENUNJUK NULL
+antrian_cuci *tempat_cuci_2 = NULL; // LIST MENUNJUK NULL
 
 int jumlah_durasi[2];
 int pilihan_durasi[3] = {30,45,75};
@@ -661,6 +661,7 @@ void keluarkan(int tanda_tempat, char no_plat[]){
 		case 1:
 			keluar_kendaraan(no_plat,tempat1);
 			break;
+
 		case 2:
 			keluar_kendaraan(no_plat,tempat2);
 			break;	
