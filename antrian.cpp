@@ -256,10 +256,6 @@ void data_antrian(){
 			printf("\n");
 			printf("                    ^ %s (%d menit - in : ",tempat1->nopol,tempat1->durasi);
 			konversi_waktu_cuci(tempat1->waktu_in);
-			printf(" - proses : ");
-			konversi_waktu_cuci(tempat1->waktu_proses);
-			printf(" - out : ");
-			konversi_waktu_cuci(tempat1->waktu_out);
 			printf(" ) ");
 			tempat1 = tempat1->next;
 		}		
@@ -286,10 +282,6 @@ void data_antrian(){
 			printf("\n");
 			printf("                    ^ %s (%d menit - in : ",tempat2->nopol,tempat2->durasi);
 			konversi_waktu_cuci(tempat2->waktu_in);
-			printf(" - proses : ");
-			konversi_waktu_cuci(tempat2->waktu_proses);
-			printf(" - out : ");
-			konversi_waktu_cuci(tempat2->waktu_out);
 			printf(" ) ");
 			tempat2 = tempat2->next;
 		}		
