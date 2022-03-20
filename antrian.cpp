@@ -22,37 +22,6 @@ int salah_input_menu_antrian();		// MODUL UNTUK ERROR HANDLE APABILA SALAH INPUT
 
 
 
-// DEKLARASI VARIABEL GLOBAL
-typedef struct antrian_cuci *address;
-struct antrian_cuci{
-	char nopol[15];
-	int golongan;
-	int durasi;
-	int waktu_in;
-	int waktu_proses;
-	int waktu_out;
-	address next;
-};
-
-antrian_cuci *tempat_cuci_1 = NULL; // LIST MENUNJUK NULL
-antrian_cuci *tempat_cuci_2 = NULL; // LIST MENUNJUK NULL
-
-int jumlah_durasi[2];
-int pilihan_durasi[3] = {30,45,75};
-int durasi_simulasi = 5; // SIMULASI SKIP WAKTU DI SET 5 MENIT
-int durasi_jeda = 5; // SIMULASI JEDA WAKTU DI SET 5 MENIT SETIAP SELESAI MENCUCI
-int waktu_buka = 0; // DALAM MENIT
-int waktu_tutup = 600; // DALAM MENIT
-int waktu_mulai_istirahat = 300; // DALAM MENIT
-int waktu_selesai_istirahat = 360; // DALAM MENIT
-int pukul_waktu;
-int antrean;
-int jumlah_kendaraan;
-int jumlah_waktu;
-// DEKLARASI VARIABEL GLOBAL - END
-
-
-
 // FUNCTION UTAMA UNTUK ANTRIAN DARI APLIKASI BRADA STEAM
 int main_antrian(){
 	// DEKLARASI VARIABEL LOKAL
