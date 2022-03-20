@@ -33,7 +33,8 @@ antrian_cuci *tempat_cuci_2 = NULL;
 
 int jumlah_durasi[2];
 int pilihan_durasi[3] = {30,45,75};
-int durasi_simulasi = 15;
+int durasi_simulasi = 5; // SIMULASI SKIP WAKTU DI SET 5 MENIT
+int durasi_jeda = 5; // SIMULASI JEDA WAKTU DI SET 5 MENIT SETIAP SELESAI MENCUCI
 int waktu_buka = 0; // DALAM MENIT
 int waktu_tutup = 600; // DALAM MENIT
 int waktu_mulai_istirahat = 300; // DALAM MENIT
@@ -244,6 +245,10 @@ void data_antrian(){
 		tempat1 = tempat_cuci_1;
 		printf("[ %s - sisa : %d menit - in : ",tempat1->nopol,tempat1->durasi);
 		konversi_waktu_cuci(tempat1->waktu_in);
+		printf(" - proses : ");
+		konversi_waktu_cuci(tempat1->waktu_proses);
+		printf(" - out : ");
+		konversi_waktu_cuci(tempat1->waktu_out);
 		printf(" ] ");
 
 		tempat1 = tempat1->next;
@@ -251,6 +256,10 @@ void data_antrian(){
 			printf("\n");
 			printf("                    ^ %s (%d menit - in : ",tempat1->nopol,tempat1->durasi);
 			konversi_waktu_cuci(tempat1->waktu_in);
+			printf(" - proses : ");
+			konversi_waktu_cuci(tempat1->waktu_proses);
+			printf(" - out : ");
+			konversi_waktu_cuci(tempat1->waktu_out);
 			printf(" ) ");
 			tempat1 = tempat1->next;
 		}		
@@ -266,6 +275,10 @@ void data_antrian(){
 		tempat2 = tempat_cuci_2;
 		printf("[ %s - sisa : %d menit - in : ",tempat2->nopol,tempat2->durasi);
 		konversi_waktu_cuci(tempat2->waktu_in);
+		printf(" - proses : ");
+		konversi_waktu_cuci(tempat2->waktu_proses);
+		printf(" - out : ");
+		konversi_waktu_cuci(tempat2->waktu_out);
 		printf(" ] ");
 
 		tempat2 = tempat2->next;
@@ -273,6 +286,10 @@ void data_antrian(){
 			printf("\n");
 			printf("                    ^ %s (%d menit - in : ",tempat2->nopol,tempat2->durasi);
 			konversi_waktu_cuci(tempat2->waktu_in);
+			printf(" - proses : ");
+			konversi_waktu_cuci(tempat2->waktu_proses);
+			printf(" - out : ");
+			konversi_waktu_cuci(tempat2->waktu_out);
 			printf(" ) ");
 			tempat2 = tempat2->next;
 		}		
@@ -551,12 +568,33 @@ int keluar_kendaraan(char no_plat[], antrian_cuci *tempat){
 // FUNCTION UNTUK SIMULASI PENCUCIAN MOBIL DENGAN DURASI YANG SUDAH DI SET DI VARIABEL GLOBAL
 void simulasi_waktu(){
 	pukul_waktu += durasi_simulasi;
+
 	if(tempat_cuci_1 != NULL){
 		tempat_cuci_1->durasi -= durasi_simulasi;
+
+		if(tempat_cuci_1->durasi == 0){ // CEK APAKAH DURASI DI 1 SUDAH 0 ATAU BELUM
+			if (tempat_cuci_2 != NULL){ // CEK APAKAH LIST 2 NULL ATAU TIDAK
+				if (tempat_cuci_2->durasi >=5){ // CEK APAKAH DURASI DI 2 MASIH LEBIH DARI 5 ATAU TIDAK
+					tempat_cuci_2->durasi -= 5; // DURASI DI 2 DIKURANGIN 5 MENIT UNTUK JEDA KE PENCUCIAN SELANJUTNYA
+				}
+			}
+		}
 	}
 
 	if(tempat_cuci_2 != NULL){
 		tempat_cuci_2->durasi -= durasi_simulasi;
+
+		if(tempat_cuci_2->durasi == 0){ // CEK APAKAH DURASI DI 2 SUDAH 0 ATAU BELUM
+			if (tempat_cuci_1 != NULL){ // CEK APAKAH LIST 1 NULL ATAU TIDAK
+				if (tempat_cuci_1->durasi >=5){ // CEK APAKAH DURASI DI 1 MASIH LEBIH DARI 5 ATAU TIDAK
+					tempat_cuci_1->durasi -= 5; // DURASI DI 1 DIKURANGIN 5 MENIT UNTUK JEDA KE PENCUCIAN SELANJUTNYA
+				}
+			}
+		}
+	}
+
+	if((tempat_cuci_1->durasi == 0) || (tempat_cuci_2->durasi == 0)){
+		pukul_waktu += durasi_jeda; // jeda 5 menit dari mobil 1 ke lainnya;
 	}
 
 	cek_sisawaktu_cuci();
@@ -568,12 +606,22 @@ void cek_sisawaktu_cuci(){
 	if(tempat_cuci_1 != NULL){
 		if(tempat_cuci_1->durasi == 0){
 			dequeue(0);
+
+			if(tempat_cuci_1 != NULL){
+				tempat_cuci_1->waktu_proses = pukul_waktu;
+				tempat_cuci_1->waktu_out = pukul_waktu + tempat_cuci_1->durasi;
+			}
 		}
 	}
 
 	if(tempat_cuci_2 != NULL){
 		if(tempat_cuci_2->durasi == 0){
 			dequeue(1);
+
+			if(tempat_cuci_2 != NULL){
+				tempat_cuci_2->waktu_proses = pukul_waktu;
+				tempat_cuci_2->waktu_out = pukul_waktu + tempat_cuci_2->durasi;
+			}
 		}
 	}
 }
@@ -734,13 +782,20 @@ int pilih_tempat_cuci(){
 
 // FUNCTION UNTUK ENQUEUE DATA KE LIST
 void enqueue_proses(antrian_cuci *data_inputan, antrian_cuci *tempat, int pilihan){
+	// DEKLARASI VARIABEL
+	antrian_cuci *data_inputan_langsung_cuci;
+
+	data_inputan_langsung_cuci = data_inputan;
+	data_inputan_langsung_cuci->waktu_proses = pukul_waktu;
+	data_inputan_langsung_cuci->waktu_out = pukul_waktu + data_inputan->durasi;
+	
 	if(tempat == NULL){
 		switch(pilihan){
 		case 0:
-			tempat_cuci_1 = data_inputan;
+			tempat_cuci_1 = data_inputan_langsung_cuci;
 			break;
 		case 1:
-			tempat_cuci_2 = data_inputan;
+			tempat_cuci_2 = data_inputan_langsung_cuci;
 			break;
 		}
 	}else{
