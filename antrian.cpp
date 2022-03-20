@@ -562,7 +562,9 @@ void simulasi_waktu(){
 	pukul_waktu += durasi_simulasi;
 
 	if(tempat_cuci_1 != NULL){
-		tempat_cuci_1->durasi -= durasi_simulasi;
+		if(tempat_cuci_1->durasi != 0){ // CEK APAKAH DURASI DI 1 SUDAH 0 ATAU BELUM
+			tempat_cuci_1->durasi -= durasi_simulasi;
+		}
 
 		if(tempat_cuci_1->durasi == 0){ // CEK APAKAH DURASI DI 1 SUDAH 0 ATAU BELUM
 			if (tempat_cuci_2 != NULL){ // CEK APAKAH LIST 2 NULL ATAU TIDAK
@@ -574,7 +576,9 @@ void simulasi_waktu(){
 	}
 
 	if(tempat_cuci_2 != NULL){
-		tempat_cuci_2->durasi -= durasi_simulasi;
+		if(tempat_cuci_2->durasi != 0){ // CEK APAKAH DURASI DI 2 SUDAH 0 ATAU BELUM
+			tempat_cuci_2->durasi -= durasi_simulasi;
+		}
 
 		if(tempat_cuci_2->durasi == 0){ // CEK APAKAH DURASI DI 2 SUDAH 0 ATAU BELUM
 			if (tempat_cuci_1 != NULL){ // CEK APAKAH LIST 1 NULL ATAU TIDAK
@@ -585,7 +589,7 @@ void simulasi_waktu(){
 		}
 	}
 
-	if((tempat_cuci_1->durasi == 0) || (tempat_cuci_2->durasi == 0)){
+	if(((tempat_cuci_1 != NULL)&&(tempat_cuci_1->durasi == 0)) || ((tempat_cuci_2 != NULL)&&(tempat_cuci_2->durasi == 0))){
 		pukul_waktu += durasi_jeda; // jeda 5 menit dari mobil 1 ke lainnya;
 	}
 
