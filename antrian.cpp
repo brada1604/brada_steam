@@ -347,9 +347,12 @@ void input_kendaraan(){
 	}
 
 	do{
+		fflush(stdin);
 		printf("\n");
 		printf("Masukkan Nomor Polisi kendaraan : ");
-		scanf("%s", &no_plat);
+		scanf("%[^\n]", &no_plat);
+		fflush(stdin);
+		break;
 
 		cek = cek_nopol(no_plat, &tanda_tempat);
 		if(cek != 0){ // JIKA CEK BERNILAI BUKAN 0 MAKA SUDAH ADA DATA KENDARAAN PADA TEMPAT CUCI ATAU PADA ANTRIAN
