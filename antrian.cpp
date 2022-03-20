@@ -4,17 +4,23 @@
 #include <string.h> 
 #include <conio.h>
 #include <iostream>
-#include <ctype.h> 
 // PEMANGGILAN LIBRARY - END
+
+
 
 // PEMANGGILAN FILE HEADER
 #include "antrian.h"
+#include "sys_compare.h"
 // PEMANGGILAN FILE HEADER - END
+
+
 
 // DEKLARASI MODUL FUNCTION
 int exit_aplikasi_antrian();		// MODUL UNTUK KELUAR APLIKASI
 int salah_input_menu_antrian();		// MODUL UNTUK ERROR HANDLE APABILA SALAH INPUT PADA MENU
 // DEKLARASI MODUL FUNCTION - END
+
+
 
 // DEKLARASI VARIABEL GLOBAL
 typedef struct antrian_cuci *address;
@@ -44,6 +50,7 @@ int antrean;
 int jumlah_kendaraan;
 int jumlah_waktu;
 // DEKLARASI VARIABEL GLOBAL - END
+
 
 
 // FUNCTION UTAMA UNTUK ANTRIAN DARI APLIKASI BRADA STEAM
@@ -107,98 +114,199 @@ int main_antrian(){
 	    }
 	}
 	else{
-		printf("\n");
-		printf("\n");
-		printf("|=================================================|\n");
-		printf("|          Silahkan Pilih Menu Dibawah :          |\n");
-		printf("|=================================================|\n");
-		printf("| 1.  Input Kendaraan                             |\n");
-		printf("| 2.  Keluarkan Kendaraan Dari Antrian            |\n");
-		printf("| 3.  Simulasi waktu (%d menit)                   |\n",durasi_simulasi);
-		printf("| 4.  Bantuan                                     |\n");
-		printf("| 5.  Selesai                                     |\n");
+		if((tempat_cuci_1 == NULL) && (tempat_cuci_2 == NULL)){
+			printf("\n");
+			printf("\n");
+			printf("|=================================================|\n");
+			printf("|          Silahkan Pilih Menu Dibawah :          |\n");
+			printf("|=================================================|\n");
+			printf("| 1.  Input Kendaraan                             |\n");
+			printf("| 2.  Keluarkan Kendaraan Dari Antrian            |\n");
+			printf("| 3.  Simulasi waktu (%d menit)                   |\n",durasi_simulasi);
+			printf("| 4.  Bantuan                                     |\n");
+			printf("| 5.  Selesai                                     |\n");
+			printf("| 6.  Skip (10 Menit)                             |\n");
+			printf("| 7.  Skip (15 Menit)                             |\n");
+			printf("| 8.  Skip (30 Menit)                             |\n");
+			printf("| 9.  Skip (45 Menit)                             |\n");
+			printf("| 10. Skip (60 Menit)                             |\n");
+			printf("|                                                 |\n");
+			printf("|=================================================|\n");
+			printf("             Copyright 2022 - BradaSteam           \n");
 
-	if((tempat_cuci_1 == NULL) && (tempat_cuci_2 == NULL)){
-		printf("| 6.  Skip (10 Menit)                             |\n");
-		printf("| 7.  Skip (15 Menit)                             |\n");
-		printf("| 8.  Skip (30 Menit)                             |\n");
-		printf("| 9.  Skip (45 Menit)                             |\n");
-		printf("| 10. Skip (60 Menit)                             |\n");
-	}
+			printf("\n\n");
+		    printf("Masukkan Pilihan : ");
+			scanf("%d", &pilihan);
 
-		printf("|                                                 |\n");
-		printf("|=================================================|\n");
-		printf("             Copyright 2022 - BradaSteam           \n");
+			// SISTEM DIRECT TO PAGE BERKAITAN BERDASARKAN INPUTAN YANG DIPILIH OLEH USER
+		    switch (pilihan) { 
+				case 1:
+					input_kendaraan(); // MODUL UNTUK MENAMBAHKAN KENDARAAN YANG AKAN DI CUCI
 
-		printf("\n\n");
-	    printf("Masukkan Pilihan : ");
-		scanf("%d", &pilihan);
-
-		// SISTEM DIRECT TO PAGE BERKAITAN BERDASARKAN INPUTAN YANG DIPILIH OLEH USER
-	    switch (pilihan) { 
-			case 1:
-				input_kendaraan(); // MODUL UNTUK MENAMBAHKAN KENDARAAN YANG AKAN DI CUCI
-
-				tombol_selanjutnya(); // MODUL UNTUK ALTERNATIF BY PASS
-
-				main_antrian(); // MODUL UTAMA
-				
-				break;
-
-			case 2:
-				cancel_kendaraan(); // PROSES MENGELUARKAN KENDARAAN DARI ANTRIAN
-
-				main_antrian(); // MODUL UTAMA
-				
-				break;
-
-			case 3:
-				simulasi_waktu(); // PROSES UNTUK SIMULASI PENCUCIAN MOBIL DENGAN DURASI TERTENTU
-
-				main_antrian(); // MODUL UTAMA
-				
-				break;
-
-			case 4:
-				bantuan_aplikasi(); // MENAMPILKAN SEMACAM PANDUAN APABILA ADA USER YANG KURANG FAMILIAR DENGAN APLIKASI
-				
-				tombol_selanjutnya(); // MODUL UNTUK ALTERNATIF BY PASS
-
-				main_antrian(); // MODUL UTAMA
-
-				break;
-
-			case 5:
-				pil = cek_antrian();
-				if(pil != 0){ // JIKA RETURN NILAI NYA ADALAH 0, MAKA ARTINYA SUDAH TIDAK ADA MOBIL YANG DI CUCI ATAU MENGANTRI
-					printf("Masih ada mobil yang sedang dicuci! Tidak bisa keluar dari program.\n");
 					tombol_selanjutnya(); // MODUL UNTUK ALTERNATIF BY PASS
 
 					main_antrian(); // MODUL UTAMA
 					
-					break;	
-				}
-				
-				system("cls");
+					break;
 
-				header_aplikasi();	
-				printf("\n");
-				printf("  Total waktu mencuci mobil adalah %d menit, dengan total kendaraan yang dicuci sebanyak %d mobil\n",jumlah_waktu,jumlah_kendaraan);
-				printf("  Terimakasih! Sampai Jumpa Kembali\n\n");
-				footer_aplikasi();	
+				case 2:
+					cancel_kendaraan(); // PROSES MENGELUARKAN KENDARAAN DARI ANTRIAN
 
-				break;
+					main_antrian(); // MODUL UTAMA
+					
+					break;
 
-		 	default:
-		 		salah_input_menu_antrian(); // REDIRECT KE salah_input_menu_antrian() UNTUK HANDLER PADA SAAT SALAH INPUT - LOKASI FILE : antrian.cpp
-				break;
-	    }
-	}
+				case 3:
+					simulasi_waktu(); // PROSES UNTUK SIMULASI PENCUCIAN MOBIL DENGAN DURASI TERTENTU
 
-    
-	    
+					main_antrian(); // MODUL UTAMA
+					
+					break;
+
+				case 4:
+					bantuan_aplikasi(); // MENAMPILKAN SEMACAM PANDUAN APABILA ADA USER YANG KURANG FAMILIAR DENGAN APLIKASI
+					
+					tombol_selanjutnya(); // MODUL UNTUK ALTERNATIF BY PASS
+
+					main_antrian(); // MODUL UTAMA
+
+					break;
+
+				case 5:
+					pil = cek_antrian();
+					if(pil != 0){ // JIKA RETURN NILAI NYA ADALAH 0, MAKA ARTINYA SUDAH TIDAK ADA MOBIL YANG DI CUCI ATAU MENGANTRI
+						printf("Masih ada mobil yang sedang dicuci! Tidak bisa keluar dari program.\n");
+						tombol_selanjutnya(); // MODUL UNTUK ALTERNATIF BY PASS
+
+						main_antrian(); // MODUL UTAMA
+						
+						break;	
+					}
+					
+					system("cls");
+
+					header_aplikasi();	
+					printf("\n");
+					printf("  Total waktu mencuci mobil adalah %d menit, dengan total kendaraan yang dicuci sebanyak %d mobil\n",jumlah_waktu,jumlah_kendaraan);
+					printf("  Terimakasih! Sampai Jumpa Kembali\n\n");
+					footer_aplikasi();	
+
+					break;
+
+				case 6:
+					skip_waktu_berjalan(10); // MODUL UNTUK SKIP WAKTU
+					main_antrian(); // MODUL MAIN
+					break;
+
+				case 7:
+					skip_waktu_berjalan(15); // MODUL UNTUK SKIP WAKTU
+					main_antrian(); // MODUL MAIN
+					break;
+
+				case 8:
+					skip_waktu_berjalan(30); // MODUL UNTUK SKIP WAKTU
+					main_antrian(); // MODUL MAIN
+					break;
+
+				case 9:
+					skip_waktu_berjalan(45); // MODUL UNTUK SKIP WAKTU
+					main_antrian(); // MODUL MAIN
+					break;
+
+				case 10:
+					skip_waktu_berjalan(60); // MODUL UNTUK SKIP WAKTU
+					main_antrian(); // MODUL MAIN
+					break;
+
+			 	default:
+			 		salah_input_menu_antrian(); // REDIRECT KE salah_input_menu_antrian() UNTUK HANDLER PADA SAAT SALAH INPUT - LOKASI FILE : antrian.cpp
+					break;
+		    }
+		}
+		else{
+			printf("\n");
+			printf("\n");
+			printf("|=================================================|\n");
+			printf("|          Silahkan Pilih Menu Dibawah :          |\n");
+			printf("|=================================================|\n");
+			printf("| 1.  Input Kendaraan                             |\n");
+			printf("| 2.  Keluarkan Kendaraan Dari Antrian            |\n");
+			printf("| 3.  Simulasi waktu (%d menit)                   |\n",durasi_simulasi);
+			printf("| 4.  Bantuan                                     |\n");
+			printf("| 5.  Selesai                                     |\n");
+			printf("|                                                 |\n");
+			printf("|=================================================|\n");
+			printf("             Copyright 2022 - BradaSteam           \n");
+
+			printf("\n\n");
+		    printf("Masukkan Pilihan : ");
+			scanf("%d", &pilihan);
+
+			// SISTEM DIRECT TO PAGE BERKAITAN BERDASARKAN INPUTAN YANG DIPILIH OLEH USER
+		    switch (pilihan) { 
+				case 1:
+					input_kendaraan(); // MODUL UNTUK MENAMBAHKAN KENDARAAN YANG AKAN DI CUCI
+
+					tombol_selanjutnya(); // MODUL UNTUK ALTERNATIF BY PASS
+
+					main_antrian(); // MODUL UTAMA
+					
+					break;
+
+				case 2:
+					cancel_kendaraan(); // PROSES MENGELUARKAN KENDARAAN DARI ANTRIAN
+
+					main_antrian(); // MODUL UTAMA
+					
+					break;
+
+				case 3:
+					simulasi_waktu(); // PROSES UNTUK SIMULASI PENCUCIAN MOBIL DENGAN DURASI TERTENTU
+
+					main_antrian(); // MODUL UTAMA
+					
+					break;
+
+				case 4:
+					bantuan_aplikasi(); // MENAMPILKAN SEMACAM PANDUAN APABILA ADA USER YANG KURANG FAMILIAR DENGAN APLIKASI
+					
+					tombol_selanjutnya(); // MODUL UNTUK ALTERNATIF BY PASS
+
+					main_antrian(); // MODUL UTAMA
+
+					break;
+
+				case 5:
+					pil = cek_antrian();
+					if(pil != 0){ // JIKA RETURN NILAI NYA ADALAH 0, MAKA ARTINYA SUDAH TIDAK ADA MOBIL YANG DI CUCI ATAU MENGANTRI
+						printf("Masih ada mobil yang sedang dicuci! Tidak bisa keluar dari program.\n");
+						tombol_selanjutnya(); // MODUL UNTUK ALTERNATIF BY PASS
+
+						main_antrian(); // MODUL UTAMA
+						
+						break;	
+					}
+					
+					system("cls");
+
+					header_aplikasi();	
+					printf("\n");
+					printf("  Total waktu mencuci mobil adalah %d menit, dengan total kendaraan yang dicuci sebanyak %d mobil\n",jumlah_waktu,jumlah_kendaraan);
+					printf("  Terimakasih! Sampai Jumpa Kembali\n\n");
+					footer_aplikasi();	
+
+					break;
+
+			 	default:
+			 		salah_input_menu_antrian(); // REDIRECT KE salah_input_menu_antrian() UNTUK HANDLER PADA SAAT SALAH INPUT - LOKASI FILE : antrian.cpp
+					break;
+		    }
+		}
+	}	    
 }
 // FUNCTION UTAMA UNTUK ANTRIAN DARI APLIKASI BRADA STEAM - END
+
+
 
 // FUNCTION UNTUK MENAMPILKAN HEADER APLIKASI
 void header_aplikasi(){
@@ -209,6 +317,8 @@ void header_aplikasi(){
 	printf("|===========================================================================================================|\n");
 }
 // FUNCTION UNTUK MENAMPILKAN HEADER APLIKASI - END
+
+
 
 // FUNTION UNTUK BANTUAN APABILA ADA KESULITAN DALAM PENGGUNAAN APLIKASI
 void bantuan_aplikasi(){
@@ -224,6 +334,8 @@ void bantuan_aplikasi(){
 }
 // FUNTION UNTUK BANTUAN APABILA ADA KESULITAN DALAM PENGGUNAAN APLIKASI - END
 
+
+
 // FUNCTION UNTUK MENAMPILKAN FOOTER APLIKASI
 void footer_aplikasi(){
 	printf("|===========================================================================================================|\n");
@@ -232,6 +344,8 @@ void footer_aplikasi(){
 }
 // FUNCTION UNTUK MENAMPILKAN FOOTER APLIKASI - END
 
+
+
 // FUNCTION UNTUK MENAMPILKAN ALERT
 void tombol_selanjutnya(){
 	printf("\n");
@@ -239,6 +353,8 @@ void tombol_selanjutnya(){
 	getch();
 }
 // FUNCTION UNTUK MENAMPILKAN ALERT
+
+
 
 // FUNCTION UNTUK MENAMPILKAN SIMULASI ANTRIAN PADA TEMPAT CUCI MOBIL
 void data_antrian(){
@@ -304,6 +420,7 @@ void data_antrian(){
 // FUNCTION UNTUK MENAMPILKAN SIMULASI ANTRIAN PADA TEMPAT CUCI MOBIL - END
 
 
+
 // FUNTION UNTUK KONVERSI WAKTU
 void konversi_waktu(){
 	int j, m, d, detik;
@@ -333,6 +450,7 @@ void konversi_waktu_cuci(int menit_cuci){
 // FUNTION UNTUK KONVERSI WAKTU - END
 
 
+
 // FUNCTION UNTUK KELUAR DARI APLIKASI
 int exit_aplikasi_antrian(){
 	char pil_out;
@@ -356,6 +474,8 @@ int exit_aplikasi_antrian(){
 }
 // FUNCTION UNTUK KELUAR DARI APLIKASI - END
 
+
+
 // FUNCTION UNTUK ERROR HANDLING PADA INPUTAN PEMILIHAN MENU
 int salah_input_menu_antrian(){
 	printf("Maaf Inputan Salah\n");
@@ -367,6 +487,8 @@ int salah_input_menu_antrian(){
 	main_antrian(); // FILE : program.h --> antrian.cpp
 }
 // FUNCTION UNTUK ERROR HANDLING PADA INPUTAN PEMILIHAN MENU - END
+
+
 
 // FUNCTION UNTUK INPUT DATA KENDARAAN
 void input_kendaraan(){
@@ -403,12 +525,14 @@ void input_kendaraan(){
 			printf("Nomor Polisi kendaraan sudah terdaftar! silahkan ganti.\n");
 		}
 	}while(cek != 0);
-
+	printf("\n\ncek : %d\n\n",cek);
 	pra_enqueue(no_plat, jenis); // PROSES SEBELUM DATA DI ENQUEUE KE LIST
 
 	notifikasi_status(no_plat, jenis); // PROSES UNTUK MENGELUARKAN NOTIFIKASI
 }
 // FUNCTION UNTUK INPUT DATA KENDARAAN - END
+
+
 
 // FUNCTION UNTUK MENGELUARKAN KENDARAAN DARI ANTRIAN DALAM ARTIAN TIDAK JADI MENCUCI MOBIL
 void cancel_kendaraan(){
@@ -448,6 +572,8 @@ void cancel_kendaraan(){
 }
 // FUNCTION UNTUK MENGELUARKAN KENDARAAN DARI ANTRIAN DALAM ARTIAN TIDAK JADI MENCUCI MOBIL
 
+
+
 // FUNCTION UNTUK CEK NOMOR POLISI KENDARAAN
 int cek_nopol(char no_plat[], int *tanda_tempat){
 	// DEKLARASI VARIABEL LOKAL
@@ -459,20 +585,30 @@ int cek_nopol(char no_plat[], int *tanda_tempat){
 
 	if(tempat1 != NULL){
 		while(tempat1 != NULL){
-			if(strcmp(no_plat,tempat1->nopol) == 0){
+			int compare_1 = stringcompare(no_plat,tempat1->nopol); // CALLING STRINGCOMPARE() FUNCTION.  
+			if(compare_1 == 0){
 				cek++;
-				*tanda_tempat = 1;	
-			}
+				*tanda_tempat = 1; 
+			}  
+			// if(strcmp(no_plat,tempat1->nopol) == 0){
+			// 	cek++;
+			// 	*tanda_tempat = 1;	
+			// }
 			tempat1 = tempat1->next;
 		}	
 	}
 
 	if(tempat2 != NULL){
 		while(tempat2 != NULL){
-			if(strcmp(no_plat,tempat2->nopol) == 0){
+			int compare_2 = stringcompare(no_plat,tempat2->nopol); // CALLING STRINGCOMPARE() FUNCTION.  
+			if(compare_2 == 0){
 				cek++;
 				*tanda_tempat = 2;
 			}
+			// if(strcmp(no_plat,tempat2->nopol) == 0){
+			// 	cek++;
+			// 	*tanda_tempat = 2;
+			// }
 			tempat2 = tempat2->next;
 		}	
 	}
@@ -480,6 +616,8 @@ int cek_nopol(char no_plat[], int *tanda_tempat){
 	return cek;
 }
 // FUNCTION UNTUK CEK NOMOR POLISI KENDARAAN - END
+
+
 
 // FUNCTION UNTUK MENAMPILKAN PILIHAN JENIS KENDARAAN
 int jenis_kendaraan(){
@@ -510,6 +648,8 @@ int jenis_kendaraan(){
 }
 // FUNCTION UNTUK MENAMPILKAN PILIHAN JENIS KENDARAAN - END
 
+
+
 // FUNCTION UNTUK PROSES MENGELUARKAN KENDARAAN BERDASARKAN TEMPAT CUCI
 void keluarkan(int tanda_tempat, char no_plat[]){
 	antrian_cuci *tempat1,*tempat2; 
@@ -528,6 +668,8 @@ void keluarkan(int tanda_tempat, char no_plat[]){
 	tombol_selanjutnya(); // MODUL UNTUK ALTERNATIF BY PASS	
 }
 // FUNCTION UNTUK PROSES MENGELUARKAN KENDARAAN BERDASARKAN TEMPAT CUCI - END
+
+
 
 // FUNTION UNTUK CEK ANTRIAN MOBIL
 int cek_antrian(){
@@ -548,6 +690,8 @@ int cek_antrian(){
 }
 // FUNTION UNTUK CEK ANTRIAN MOBIL
 
+
+
 // FUNCTION UNTUK PROSES MENGELUARKAN MOBIL DARI LIST / ANTRIAN
 int keluar_kendaraan(char no_plat[], antrian_cuci *tempat){
 	antrian_cuci *kendaraan_siap_keluar_antrian;
@@ -566,11 +710,15 @@ int keluar_kendaraan(char no_plat[], antrian_cuci *tempat){
 }
 // FUNCTION UNTUK PROSES MENGELUARKAN MOBIL DARI LIST / ANTRIAN - END
 
+
+
 // FUNTION UNTUK SKIP WAKTU SISTEM PENCUCIAN
 void skip_waktu_berjalan(int m){
 	pukul_waktu += m; // SKIP WAKTU BERJALAN SEBANYAK m MENIT
 }
 // FUNTION UNTUK SKIP WAKTU SISTEM PENCUCIAN - END
+
+
 
 // FUNCTION UNTUK SIMULASI PENCUCIAN MOBIL DENGAN DURASI YANG SUDAH DI SET DI VARIABEL GLOBAL
 void simulasi_waktu(){
@@ -583,8 +731,8 @@ void simulasi_waktu(){
 
 		if(tempat_cuci_1->durasi == 0){ // CEK APAKAH DURASI DI 1 SUDAH 0 ATAU BELUM
 			if (tempat_cuci_2 != NULL){ // CEK APAKAH LIST 2 NULL ATAU TIDAK
-				if (tempat_cuci_2->durasi >=5){ // CEK APAKAH DURASI DI 2 MASIH LEBIH DARI 5 ATAU TIDAK
-					tempat_cuci_2->durasi -= 5; // DURASI DI 2 DIKURANGIN 5 MENIT UNTUK JEDA KE PENCUCIAN SELANJUTNYA
+				if (tempat_cuci_2->durasi >= durasi_jeda){ // CEK APAKAH DURASI DI 2 MASIH LEBIH DARI 5 ATAU TIDAK
+					tempat_cuci_2->durasi -= durasi_jeda; // DURASI DI 2 DIKURANGIN 5 MENIT UNTUK JEDA KE PENCUCIAN SELANJUTNYA
 				}
 			}
 		}
@@ -597,8 +745,8 @@ void simulasi_waktu(){
 
 		if(tempat_cuci_2->durasi == 0){ // CEK APAKAH DURASI DI 2 SUDAH 0 ATAU BELUM
 			if (tempat_cuci_1 != NULL){ // CEK APAKAH LIST 1 NULL ATAU TIDAK
-				if (tempat_cuci_1->durasi >=5){ // CEK APAKAH DURASI DI 1 MASIH LEBIH DARI 5 ATAU TIDAK
-					tempat_cuci_1->durasi -= 5; // DURASI DI 1 DIKURANGIN 5 MENIT UNTUK JEDA KE PENCUCIAN SELANJUTNYA
+				if (tempat_cuci_1->durasi >= durasi_jeda){ // CEK APAKAH DURASI DI 1 MASIH LEBIH DARI 5 ATAU TIDAK
+					tempat_cuci_1->durasi -= durasi_jeda; // DURASI DI 1 DIKURANGIN 5 MENIT UNTUK JEDA KE PENCUCIAN SELANJUTNYA
 				}
 			}
 		}
@@ -611,6 +759,9 @@ void simulasi_waktu(){
 	cek_sisawaktu_cuci();
 }
 // FUNCTION UNTUK SIMULASI PENCUCIAN MOBIL DENGAN DURASI YANG SUDAH DI SET DI VARIABEL GLOBAL
+
+
+
 
 // FUNTION UNTUK CEK SISA WAKTU MENCUCI MOBIL
 void cek_sisawaktu_cuci(){
@@ -638,6 +789,9 @@ void cek_sisawaktu_cuci(){
 }
 // FUNTION UNTUK CEK SISA WAKTU MENCUCI MOBIL
 
+
+
+
 // FUNCTION UNTUK DEQUE ATAU MENGHAPUS DATA DARI ANTRIAN (QUEUE)
 void dequeue(int pilih){
 	// DEKLARASI VARIABEL LOKAL
@@ -661,6 +815,8 @@ void dequeue(int pilih){
 }
 // FUNCTION UNTUK DEQUE ATAU MENGHAPUS DATA DARI ANTRIAN (QUEUE) - END
 
+
+
 // FUNCTION UNTUK MENGHITUNG TOTAL KENDARAAN YANG SUDAH DI CUCI DAN JUGA TOTAL DURASI PENCUCIANNYA
 void hitung_total(int pilih){
 	switch(pilih){
@@ -681,6 +837,8 @@ void hitung_total(int pilih){
 	}
 }
 // FUNCTION UNTUK MENGHITUNG TOTAL KENDARAAN YANG SUDAH DI CUCI DAN JUGA TOTAL DURASI PENCUCIANNYA - END
+
+
 
 // FUNCTION UNTUK PROSES PENGINPUTAN DATA KENDARAAN KE TEMPAT PENCUCIAN, DAN JUGA MEMILIH ANTARA TEMPAT CUCI 1 ATAU TEMPAT CUCI 2
 void pra_enqueue(char no_plat[], int golongan){
@@ -734,6 +892,8 @@ void pra_enqueue(char no_plat[], int golongan){
 }
 // FUNCTION UNTUK PROSES PENGINPUTAN DATA KENDARAAN KE TEMPAT PENCUCIAN, DAN JUGA MEMILIH ANTARA TEMPAT CUCI 1 ATAU TEMPAT CUCI 2 - END
 
+
+
 // FUNCTION UNTUK MENGHITUNG DURASI PENCUCIAN MOBIL
 void hitung_durasi(){
 	antrian_cuci *tempat1,*tempat2;
@@ -763,6 +923,8 @@ void hitung_durasi(){
 }
 // FUNCTION UNTUK MENGHITUNG DURASI PENCUCIAN MOBIL - END
 
+
+
 // FUNCTION UNTUK PROSES PENENTUAN TEMPAT CUCI MOBIL
 int pilih_tempat_cuci(){
 	int c, d, swap;
@@ -790,6 +952,8 @@ int pilih_tempat_cuci(){
   	return c;
 }
 // FUNCTION UNTUK PROSES PENENTUAN TEMPAT CUCI MOBIL
+
+
 
 // FUNCTION UNTUK ENQUEUE DATA KE LIST
 void enqueue_proses(antrian_cuci *data_inputan, antrian_cuci *tempat, int pilihan){
@@ -819,6 +983,8 @@ void enqueue_proses(antrian_cuci *data_inputan, antrian_cuci *tempat, int piliha
 }
 // FUNCTION UNTUK ENQUEUE DATA KE LIST - END
 
+
+
 // FUNCTION UNTUK PUSH NOTIFIKASI
 void notifikasi_status(char no_plat[], int golongan){
 	// DEKLARASI VARIABEL LOKAL
@@ -831,9 +997,11 @@ void notifikasi_status(char no_plat[], int golongan){
 		case 1:
 			temp_waktu = pilihan_durasi[0];
 			break;
+
 		case 2:
 			temp_waktu = pilihan_durasi[1];
 			break;
+
 		case 3:
 			temp_waktu = pilihan_durasi[2];
 			break;	
@@ -844,6 +1012,7 @@ void notifikasi_status(char no_plat[], int golongan){
 			printf(" %d menit dan durasi antri sekitar",temp_waktu);
 			printf(" %d menit.\n",jumlah_durasi[0]);
 			break;
+
 		case 1:
 			printf(" %d menit dan durasi antri sekitar",temp_waktu);
 			printf(" %d menit.\n",jumlah_durasi[1]);
