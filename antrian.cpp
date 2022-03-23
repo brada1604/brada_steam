@@ -289,7 +289,7 @@ void header_aplikasi(){
 
 
 
-// FUNTION UNTUK BANTUAN APABILA ADA KESULITAN DALAM PENGGUNAAN APLIKASI
+// FUNCTION UNTUK BANTUAN APABILA ADA KESULITAN DALAM PENGGUNAAN APLIKASI
 void bantuan_aplikasi(){
 	printf("\n");
 	printf("BANTUAN PADA APLIKASI BRADA STEAM (PANDUAN) : \n");
@@ -297,11 +297,11 @@ void bantuan_aplikasi(){
 	printf("- Ketik '0' pada setiap inputan, jika kamu tidak akan jadi melakukan hal tersebut (input data)\n");
 	printf("- ketik '1' pada menu untuk input kendaraan\n");
 	printf("- ketik '2' pada menu apabila ada kendaraan yang tidak jadi di cuci namun masih pada antrian\n");
-	printf("- ketik '3' pada menu untuk melakukan pencucian selama 15 menit ke depan\n");
+	printf("- ketik '3' pada menu untuk melakukan pencucian selama 5 menit ke depan\n");
 	printf("- ketik '4' pada menu untuk bantuan penggunaan aplikasi\n");
 	printf("- ketik '5' pada menu untuk keluar dari aplikasi\n");
 }
-// FUNTION UNTUK BANTUAN APABILA ADA KESULITAN DALAM PENGGUNAAN APLIKASI - END
+// FUNCTION UNTUK BANTUAN APABILA ADA KESULITAN DALAM PENGGUNAAN APLIKASI - END
 
 
 
@@ -494,7 +494,7 @@ void input_kendaraan(){
 			printf("Nomor Polisi kendaraan sudah terdaftar! silahkan ganti.\n");
 		}
 	}while(cek != 0);
-	printf("\n\ncek : %d\n\n",cek);
+	
 	pra_enqueue(no_plat, jenis); // PROSES SEBELUM DATA DI ENQUEUE KE LIST
 
 	notifikasi_status(no_plat, jenis); // PROSES UNTUK MENGELUARKAN NOTIFIKASI
